@@ -87,6 +87,19 @@ app.py
 
 在 Secrets 里填入 `GROQ_API_KEY`，部署完成后即可获得公开链接。
 
+也可以部署到 Railway。仓库里已经包含 `Procfile`，Railway 会用下面的命令启动应用：
+
+```bash
+streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true
+```
+
+Railway 部署时在 Variables 里设置：
+
+```text
+GROQ_API_KEY=你的 Groq API Key
+GROQ_MODEL=llama-3.1-8b-instant
+```
+
 ## 常见问题
 
 - 无法连接 Ollama：确认 Ollama 正在运行，并且模型名和页面左侧输入一致。

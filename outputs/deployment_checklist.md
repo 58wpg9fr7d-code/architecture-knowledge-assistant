@@ -43,6 +43,24 @@ GROQ_MODEL = "llama-3.1-8b-instant"
 - 提问
 - 检查回答和来源片段
 
+## Railway 备用部署
+
+如果 Streamlit Cloud 因网络或 IP 限制无法访问，可以使用 Railway：
+
+1. 打开 Railway，新建 Project。
+2. 选择 Deploy from GitHub repo。
+3. 选择 `58wpg9fr7d-code/architecture-knowledge-assistant`。
+4. 如果提示安装 Railway GitHub App，按页面提示授权这个仓库。
+5. 在项目 Variables 里添加：
+
+```text
+GROQ_API_KEY=你的 Groq API Key
+GROQ_MODEL=llama-3.1-8b-instant
+```
+
+6. Railway 会读取 `Procfile` 并启动 Streamlit。
+7. 部署完成后，在 Settings 或 Deployments 中生成公开域名。
+
 ## 作品集里可以写的交付状态
 
 已完成一个可运行的建筑知识库助手原型，支持本地文档上传、文档向量化检索、基于来源的回答生成，以及本地/云端模型切换。项目可本地运行，也可部署为公开演示链接。
