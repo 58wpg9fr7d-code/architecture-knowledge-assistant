@@ -156,8 +156,8 @@ class HashEmbeddings(Embeddings):
 
 @st.cache_resource(show_spinner=False)
 def get_embeddings() -> Embeddings:
-    use_hf = str(get_secret("USE_HF_EMBEDDINGS", "")).lower() in {"1", "true", "yes"}
-    if not use_hf:
+    is_hf_disabled = str(get_secret("DISABLE_HF_EMBEDDINGS", "")).lower() in {"1", "true", "yes"}
+    if is_hf_disabled:
         return HashEmbeddings()
     try:
         from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -289,7 +289,8 @@ def main():
         st.markdown(f'<div style="font-size:0.85rem;color:#6B6B68;">📄 已录入 <b style="color:#1A1A1A;">{len(current_files)}</b> 份文档</div>', unsafe_allow_html=True)
     with col_b:
         emb_name = type(get_embeddings()).__name__
-        st.markdown(f'<div style="font-size:0.85rem;color:#6B6B68;">🧠 向量方式：<b style="color:#1A1A1A;">{emb_name}</b></div>', unsafe_allow_html=True)
+        emb_display = "语义向量模型（HuggingFace）" if "HuggingFace" in emb_name else "本地哈希向量"
+        st.markdown(f'<div style="font-size:0.85rem;color:#6B6B68;">🧠 向量方式：<b style="color:#1A1A1A;">{emb_display}</b></div>', unsafe_allow_html=True)
     with col_c:
         provider_label = "Groq Cloud" if get_secret("GROQ_API_KEY") else "Ollama 本地"
         st.markdown(f'<div style="font-size:0.85rem;color:#6B6B68;">⚡ 默认模型服务：<b style="color:#1A1A1A;">{provider_label}</b></div>', unsafe_allow_html=True)
