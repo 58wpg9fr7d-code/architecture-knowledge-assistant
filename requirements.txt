@@ -1,7 +1,7 @@
-streamlit
-langchain
-langchain-community
-langchain-text-splitters
-chromadb
-requests
-pypdf
+streamlit>=1.28.0
+langchain-core>=0.2.0
+langchain-text-splitters>=0.2.0
+langchain-community>=0.2.0
+chromadb>=0.4.0
+pypdf>=4.0.0
+requests>=2.31.0
