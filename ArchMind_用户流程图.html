@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ArchMind 用户流程图</title>
+  <style>
+    :root {
+      --bg: #f5f5f4;
+      --surface: #fff;
+      --panel: #fafafa;
+      --ink: #202020;
+      --muted: #747474;
+      --line: #d6d6d6;
+      --active: #1f1f1f;
+      --shadow: 0 14px 36px rgba(20, 20, 20, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 36px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+    .board {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .subtitle {
+      margin: 0 0 30px;
+      color: var(--muted);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+    .node {
+      position: relative;
+      min-height: 164px;
+      padding: 20px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    .node:after {
+      content: "→";
+      position: absolute;
+      right: -16px;
+      top: 66px;
+      color: var(--muted);
+      font-size: 22px;
+    }
+    .node:last-child:after { content: ""; }
+    .index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: var(--active);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    @media (max-width: 900px) {
+      body { padding: 18px; }
+      .flow { grid-template-columns: 1fr; }
+      .node:after { content: ""; }
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <h1>ArchMind 用户流程图</h1>
+    <p class="subtitle">首页 → 上传页 → 维度选择页 → 结果页 → 提纲页 → 导出页</p>
+    <section class="flow" aria-label="6 页用户流程">
+      <div class="node"><span class="index">1</span><strong>首页</strong><p>用户填写案例名称，上传文本资料和图纸/图片，满足条件后开始分析。</p></div>
+      <div class="node"><span class="index">2</span><strong>资料上传页</strong><p>展示文件解析状态、整体进度和已识别的基础信息。</p></div>
+      <div class="node"><span class="index">3</span><strong>用途与维度选择页</strong><p>用户选择输出用途，勾选默认维度，并可填写自定义维度。</p></div>
+      <div class="node"><span class="index">4</span><strong>AI 分析结果页</strong><p>生成基础信息、总体摘要、分维度分析、来源标注与置信度备注。</p></div>
+      <div class="node"><span class="index">5</span><strong>汇报提纲生成页</strong><p>用户选择课程汇报、论文分析、作品集图注或设计策略清单。</p></div>
+      <div class="node"><span class="index">6</span><strong>导出页</strong><p>导出 Word、Markdown、复制到剪贴板，或保存到我的案例库。</p></div>
+    </section>
+  </main>
+</body>
+</html>

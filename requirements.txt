@@ -6,3 +6,6 @@ chromadb>=0.4.0
 pypdf>=4.0.0
 requests>=2.31.0
 sentence-transformers>=2.2.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+pydantic>=2.0.0

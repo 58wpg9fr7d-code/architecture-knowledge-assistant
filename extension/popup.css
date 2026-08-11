@@ -1,0 +1,274 @@
+/* ArchMind Chrome Extension — Popup Styles
+   Matches the Streamlit app aesthetic: Noto Sans SC, clean, neutral. */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@700&display=swap');
+
+/* ── Reset & base ───────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 480px;
+  min-height: 360px;
+  font-family: 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1A1A1A;
+  background: #FFFFFF;
+}
+
+.container {
+  padding: 16px 18px;
+}
+
+/* ── Header ─────────────────────────────── */
+.header {
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: 'Noto Serif SC', 'Songti SC', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  color: #6B6B68;
+  line-height: 1.4;
+}
+
+/* ── Status ─────────────────────────────── */
+.status {
+  font-size: 0.72rem;
+  margin-top: 4px;
+  padding: 2px 0;
+}
+
+.status.ok {
+  color: #16A34A;
+}
+
+.status.error {
+  color: #DC2626;
+}
+
+/* ── Settings ───────────────────────────── */
+.settings-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.setting {
+  flex: 1;
+}
+
+.setting label {
+  display: block;
+  font-size: 0.72rem;
+  color: #6B6B68;
+  margin-bottom: 3px;
+}
+
+.setting select,
+.setting input {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  border: 1px solid #E8E4DD;
+  border-radius: 6px;
+  background: #FAFAF8;
+  color: #1A1A1A;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.setting select:focus,
+.setting input:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+/* ── Question ───────────────────────────── */
+.question-area {
+  margin-bottom: 10px;
+}
+
+#question {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  line-height: 1.6;
+  border: 1px solid #E8E4DD;
+  border-radius: 8px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+  color: #1A1A1A;
+  background: #FFFFFF;
+}
+
+#question:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+#question::placeholder {
+  color: #A8A8A6;
+  font-size: 0.8rem;
+}
+
+/* ── Button ─────────────────────────────── */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: #FAFAF8;
+  background: #1A1A1A;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+  background: #2D2D2D;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── Error ──────────────────────────────── */
+.error {
+  font-size: 0.8rem;
+  color: #DC2626;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* ── Answer ─────────────────────────────── */
+.answer-section {
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  color: #6B6B68;
+  margin-bottom: 6px;
+}
+
+.answer-block {
+  background: #FAFAF8;
+  border-left: 3px solid #2563EB;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: #1A1A1A;
+}
+
+.answer-block p {
+  margin-bottom: 0.5em;
+}
+
+.answer-block p:last-child {
+  margin-bottom: 0;
+}
+
+.citation {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin: 0 1px;
+}
+
+/* ── Sources ────────────────────────────── */
+.sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.source-item {
+  border: 1px solid #E8E4DD;
+  border-radius: 6px;
+}
+
+.source-item summary {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  padding: 6px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.source-item summary:hover {
+  background: #FAFAF8;
+}
+
+.source-content {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #4A4A48;
+  padding: 6px 10px 10px 10px;
+  border-top: 1px solid #E8E4DD;
+  white-space: pre-wrap;
+}
+
+/* ── Scrollbar ──────────────────────────── */
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #D4D4D0;
+  border-radius: 3px;
+}

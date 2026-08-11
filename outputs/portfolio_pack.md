@@ -60,8 +60,10 @@ flowchart LR
 
 - `app.py`：Streamlit 应用主文件
 - `requirements.txt`：依赖列表
-- `documents/sample_architecture.txt`：建筑示例文档
-- `README.md`：本地运行和部署说明
+- `documents/`：17 份本地测试资料，包括 13 份 TXT 核心要点和 4 份 PDF 文献
+- `README.md`：项目统一入口、本地运行、部署和产品边界说明
+- `api.py` 与 `extension/`：FastAPI 接口和 Manifest V3 Chrome 扩展
+- `ArchMind_产品验证与优化计划.md`：下一轮用户验证和 RAG 评测方案
 - `.streamlit/config.toml`：Streamlit Cloud 展示配置
 - `.streamlit/secrets.toml.example`：Groq Cloud 密钥配置示例
 
@@ -78,8 +80,10 @@ ChatGPT、Perplexity 和 Notion AI 都证明了“AI + 文档/搜索/知识库�
 
 ## 后续迭代
 
-1. 增加网页上传和 PDF 批量导入界面。
-2. 按“规范、案例、理论、材料、可持续策略”自动分类文档。
-3. 在回答中显示更细的页码、段落和引用编号。
-4. 增加竞品分析、案例卡片和 Axure 原型截图展示区。
-5. 部署到 Streamlit Cloud 或 Railway，生成公开演示链接。
+1. 建立 20 道固定问题和标准证据，评测检索命中率与引用准确性。
+2. 将来源从文件级片段升级到页码、章节和条款级引用。
+3. 按“规范、案例、理论、材料、可持续策略”管理文档版本和分类。
+4. 增加 API 权限、限流、日志和错误监控。
+5. 基于真实用户测试结果决定是否继续扩展 v2.0 案例分析工作流。
+
+> 当前没有真实用户测试数据，因此不填写用户数、准确率或效率提升比例。

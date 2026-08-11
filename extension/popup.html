@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArchMind · AI 建筑知识助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">ArchMind</h1>
+      <p class="subtitle">AI 建筑知识助手 · RAG 检索 + 来源标注</p>
+      <div id="status" class="status"></div>
+    </header>
+
+    <!-- Settings row -->
+    <div class="settings-row">
+      <div class="setting">
+        <label for="provider">模型服务</label>
+        <select id="provider">
+          <option value="Groq Cloud">Groq Cloud</option>
+          <option value="Ollama 本地">Ollama 本地</option>
+        </select>
+      </div>
+      <div class="setting">
+        <label for="model">模型</label>
+        <input type="text" id="model" placeholder="自动检测..." />
+      </div>
+    </div>
+
+    <!-- Question input -->
+    <div class="question-area">
+      <textarea
+        id="question"
+        placeholder="输入建筑问题，或先在网页上选中文字后右键 &quot;用 ArchMind 检索这段文字&quot;..."
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Ask button -->
+    <button id="ask-btn" class="btn-primary">
+      <span id="btn-text">🔍 提问</span>
+      <span id="btn-spinner" class="spinner hidden"></span>
+    </button>
+
+    <!-- Error message -->
+    <div id="error" class="error hidden"></div>
+
+    <!-- Answer -->
+    <div id="answer-section" class="answer-section hidden">
+      <div class="section-label">📝 回答</div>
+      <div id="answer" class="answer-block"></div>
+    </div>
+
+    <!-- Sources -->
+    <div id="sources-section" class="sources-section hidden">
+      <div class="section-label">📎 检索来源</div>
+      <div id="sources" class="sources-list"></div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

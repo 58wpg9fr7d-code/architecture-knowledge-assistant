@@ -1,0 +1,2 @@
+说明：当前文件是 HTML 可点击原型，不是 Axure 默认 .rp 文件。
+Axure 默认保存格式是 .rp。要生成真正 .rp，需要在 Axure 里重新搭建，或允许 Codex/osascript 使用 macOS 辅助功能来操作 Axure 保存。
