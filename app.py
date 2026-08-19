@@ -14,7 +14,7 @@ import streamlit as st
 
 from core import (
     DOCUMENTS_DIR,
-    DEFAULT_GROQ_MODEL,
+    DEFAULT_GEMINI_MODEL,
     DEFAULT_OLLAMA_MODEL,
     SUPPORTED_SUFFIXES,
     get_embeddings,
@@ -142,7 +142,7 @@ def main():
             unsafe_allow_html=True,
         )
     with col_c:
-        provider_label = "Groq Cloud" if get_secret("GROQ_API_KEY") else "Ollama 本地"
+        provider_label = "Gemini Cloud" if get_secret("GEMINI_API_KEY") else "Ollama 本地"
         st.markdown(
             f'<div style="font-size:0.85rem;color:#6B6B68;">'
             f'⚡ 默认模型服务：<b style="color:#1A1A1A;">{provider_label}</b></div>',
@@ -159,12 +159,12 @@ def main():
         with c1:
             provider = st.selectbox(
                 "模型服务",
-                ["Groq Cloud", "Ollama 本地"],
-                index=0 if get_secret("GROQ_API_KEY") else 1,
+                ["Gemini Cloud", "Ollama 本地"],
+                index=0 if get_secret("GEMINI_API_KEY") else 1,
             )
             model = st.text_input(
                 "模型名称",
-                value=DEFAULT_GROQ_MODEL if provider == "Groq Cloud" else DEFAULT_OLLAMA_MODEL,
+                value=DEFAULT_GEMINI_MODEL if provider == "Gemini Cloud" else DEFAULT_OLLAMA_MODEL,
             )
             top_k = st.slider("检索片段数量", 2, 8, 4)
         with c2:
@@ -232,7 +232,7 @@ def main():
             if provider == "Ollama 本地":
                 st.info(f"如果模型不存在，请先运行：ollama pull {model}")
             else:
-                st.info("请检查 GROQ_API_KEY 是否有效，以及模型名称是否在 Groq 支持列表中。")
+                st.info("请检查 GEMINI_API_KEY 是否有效，以及模型名称是否在 Gemini 支持列表中。")
             st.stop()
         except RuntimeError as exc:
             st.error(str(exc))

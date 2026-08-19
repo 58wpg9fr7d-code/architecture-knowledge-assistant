@@ -4,7 +4,7 @@ ArchMind 是一个面向建筑规范、文献和案例资料的 AI 知识检索�
 
 本项目包含两条产品线：
 
-- **v1.0 技术验证**：Streamlit + ChromaDB 的建筑资料问答助手，支持本地 Ollama 和线上 Groq Cloud。
+- **v1.0 技术验证**：Streamlit + ChromaDB 的建筑资料问答助手，支持本地 Ollama 和线上 Gemini Cloud。
 - **v2.0 产品设计**：从“单次问答”扩展到资料上传、分析维度选择、结构化报告、提纲生成和导出的建筑案例分析工作流。
 
 ## 先看什么
@@ -35,7 +35,7 @@ ChromaDB 建立索引
         ↓
 检索相关片段
         ↓
-Ollama / Groq 生成回答
+Ollama / Gemini 生成回答
         ↓
 展示回答与来源片段
 ```
@@ -84,8 +84,8 @@ ollama pull qwen2:7b
 线上运行：
 
 ```bash
-export GROQ_API_KEY="你的 Groq API Key"
-export GROQ_MODEL="llama-3.1-8b-instant"
+export GEMINI_API_KEY="你的 Gemini API Key"
+export GEMINI_MODEL="gemini-2.5-flash"
 ```
 
 也可以复制 `.streamlit/secrets.toml.example` 为 `.streamlit/secrets.toml` 后填写密钥。密钥文件不要提交到 Git。
@@ -141,7 +141,7 @@ ChromaDB 开源、本地运行、成本低，适合小规模原型。未来如�
 - 自然语言检索；
 - 基于检索片段的模型回答；
 - 来源片段展示；
-- Ollama / Groq Cloud 双模型服务；
+- Ollama / Gemini Cloud 双模型服务；
 - v2.0 PRD、用户流程和原型。
 
 当前没有虚构或宣称以下结果：

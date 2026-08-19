@@ -5,7 +5,7 @@ Provides:
 - Document loading & chunking
 - Embeddings (hash-based fallback + HuggingFace optional)
 - ChromaDB vector store
-- LLM calling (Ollama local / Groq Cloud)
+- LLM calling (Ollama local / Gemini Cloud)
 - Prompt construction
 """
 
@@ -35,8 +35,8 @@ DOCUMENTS_DIR = APP_DIR / "documents"
 DB_DIR = APP_DIR / ".chroma_db"
 DEFAULT_OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2:7b")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
-GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+DEFAULT_GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 SUPPORTED_SUFFIXES = {".txt", ".md", ".pdf"}
 
 
@@ -237,32 +237,34 @@ def ask_ollama(prompt: str, model: str | None = None) -> str:
     return r.json().get("response", "").strip()
 
 
-def ask_groq(prompt: str, model: str | None = None) -> str:
-    model = model or DEFAULT_GROQ_MODEL
-    api_key = get_secret("GROQ_API_KEY")
+def ask_gemini(prompt: str, model: str | None = None) -> str:
+    model = model or DEFAULT_GEMINI_MODEL
+    api_key = get_secret("GEMINI_API_KEY")
     if not api_key:
-        raise RuntimeError("缺少 GROQ_API_KEY。")
+        raise RuntimeError("缺少 GEMINI_API_KEY。")
     r = requests.post(
-        GROQ_API_URL,
+        GEMINI_API_URL.format(model=model),
+        params={"key": api_key},
         headers={
-            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         },
         json={
-            "model": model,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.2,
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.2},
         },
         timeout=120,
     )
     r.raise_for_status()
-    return r.json()["choices"][0]["message"]["content"].strip()
+    try:
+        return r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except (KeyError, IndexError, TypeError) as exc:
+        raise RuntimeError("Gemini 返回了无法解析的结果。") from exc
 
 
-def ask_llm(prompt: str, provider: str = "Groq Cloud", model: str | None = None) -> str:
-    """Call the LLM. `provider` is 'Groq Cloud' or 'Ollama 本地'."""
-    if provider == "Groq Cloud":
-        return ask_groq(prompt, model)
+def ask_llm(prompt: str, provider: str = "Gemini Cloud", model: str | None = None) -> str:
+    """Call the LLM. `provider` is 'Gemini Cloud' or 'Ollama 本地'."""
+    if provider == "Gemini Cloud":
+        return ask_gemini(prompt, model)
     return ask_ollama(prompt, model)
 
 
@@ -283,7 +285,7 @@ def make_prompt(question: str, docs: list[Document]) -> str:
 
 
 # ── High-level RAG query ──────────────────
-def query(question: str, provider: str = "Groq Cloud", model: str | None = None,
+def query(question: str, provider: str = "Gemini Cloud", model: str | None = None,
           top_k: int = 4, force_rebuild: bool = False) -> dict:
     """Run a full RAG query: retrieve → generate → return answer + sources.
 
