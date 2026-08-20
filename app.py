@@ -15,6 +15,7 @@ import streamlit as st
 from core import (
     DOCUMENTS_DIR,
     DEFAULT_GEMINI_MODEL,
+    DEFAULT_GROQ_MODEL,
     DEFAULT_OLLAMA_MODEL,
     SUPPORTED_SUFFIXES,
     get_embeddings,
@@ -141,8 +142,13 @@ def main():
             f'🧠 向量方式：<b style="color:#1A1A1A;">{emb_display}</b></div>',
             unsafe_allow_html=True,
         )
+    has_groq_key = bool(get_secret("GROQ_API_KEY"))
+    has_gemini_key = bool(get_secret("GEMINI_API_KEY"))
+    default_provider = (
+        "Groq Cloud" if has_groq_key else "Gemini Cloud" if has_gemini_key else "Ollama 本地"
+    )
     with col_c:
-        provider_label = "Gemini Cloud" if get_secret("GEMINI_API_KEY") else "Ollama 本地"
+        provider_label = default_provider
         st.markdown(
             f'<div style="font-size:0.85rem;color:#6B6B68;">'
             f'⚡ 默认模型服务：<b style="color:#1A1A1A;">{provider_label}</b></div>',
@@ -159,12 +165,16 @@ def main():
         with c1:
             provider = st.selectbox(
                 "模型服务",
-                ["Gemini Cloud", "Ollama 本地"],
-                index=0 if get_secret("GEMINI_API_KEY") else 1,
+                ["Groq Cloud", "Gemini Cloud", "Ollama 本地"],
+                index=["Groq Cloud", "Gemini Cloud", "Ollama 本地"].index(default_provider),
             )
             model = st.text_input(
                 "模型名称",
-                value=DEFAULT_GEMINI_MODEL if provider == "Gemini Cloud" else DEFAULT_OLLAMA_MODEL,
+                value=(
+                    DEFAULT_GROQ_MODEL if provider == "Groq Cloud"
+                    else DEFAULT_GEMINI_MODEL if provider == "Gemini Cloud"
+                    else DEFAULT_OLLAMA_MODEL
+                ),
             )
             top_k = st.slider("检索片段数量", 2, 8, 4)
         with c2:
@@ -233,6 +243,8 @@ def main():
             st.error(f"模型服务返回错误（HTTP {status_code}）。")
             if provider == "Ollama 本地":
                 st.info(f"如果模型不存在，请先运行：ollama pull {model}")
+            elif provider == "Groq Cloud":
+                st.info("请检查 GROQ_API_KEY 是否有效，以及模型名称是否在 Groq 支持列表中。不会显示密钥内容。")
             else:
                 st.info("请检查 GEMINI_API_KEY 是否有效，以及模型名称是否在 Gemini 支持列表中。不会显示密钥内容。")
             st.stop()

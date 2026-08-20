@@ -4,7 +4,7 @@ ArchMind 是一个面向建筑规范、文献和案例资料的 AI 知识检索�
 
 本项目包含两条产品线：
 
-- **v1.0 技术验证**：Streamlit + ChromaDB 的建筑资料问答助手，支持本地 Ollama 和线上 Gemini Cloud。
+- **v1.0 技术验证**：Streamlit + ChromaDB 的建筑资料问答助手，支持本地 Ollama、Groq Cloud 和 Gemini Cloud。
 - **v2.0 产品设计**：从“单次问答”扩展到资料上传、分析维度选择、结构化报告、提纲生成和导出的建筑案例分析工作流。
 
 ## 先看什么

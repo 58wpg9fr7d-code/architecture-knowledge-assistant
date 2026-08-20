@@ -43,7 +43,15 @@ DEFAULT_GEMINI_MODEL = (
     if not _configured_gemini_model or _configured_gemini_model == "gemini-2.5-flash"
     else _configured_gemini_model
 )
+_configured_groq_model = os.getenv("GROQ_MODEL", "").strip()
+DEFAULT_GROQ_MODEL = (
+    "openai/gpt-oss-20b"
+    if not _configured_groq_model
+    or _configured_groq_model in {"llama-3.1-8b-instant", "llama-3.3-70b-versatile"}
+    else _configured_groq_model
+)
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 SUPPORTED_SUFFIXES = {".txt", ".md", ".pdf"}
 
 
@@ -272,8 +280,35 @@ def ask_gemini(prompt: str, model: str | None = None) -> str:
         raise RuntimeError("Gemini 返回了无法解析的结果。") from exc
 
 
+def ask_groq(prompt: str, model: str | None = None) -> str:
+    model = model or DEFAULT_GROQ_MODEL
+    api_key = get_secret("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("缺少 GROQ_API_KEY。")
+    r = requests.post(
+        GROQ_API_URL,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.2,
+        },
+        timeout=120,
+    )
+    r.raise_for_status()
+    try:
+        return r.json()["choices"][0]["message"]["content"].strip()
+    except (KeyError, IndexError, TypeError) as exc:
+        raise RuntimeError("Groq 返回了无法解析的结果。") from exc
+
+
 def ask_llm(prompt: str, provider: str = "Gemini Cloud", model: str | None = None) -> str:
-    """Call the LLM. `provider` is 'Gemini Cloud' or 'Ollama 本地'."""
+    """Call the LLM. Supports Groq Cloud, Gemini Cloud, and Ollama 本地."""
+    if provider == "Groq Cloud":
+        return ask_groq(prompt, model)
     if provider == "Gemini Cloud":
         return ask_gemini(prompt, model)
     return ask_ollama(prompt, model)
@@ -330,7 +365,7 @@ def query(question: str, provider: str = "Gemini Cloud", model: str | None = Non
         result["error"] = f"模型服务返回错误（HTTP {status_code}）。"
         return result
     except Exception as exc:
-        result["error"] = f"调用模型失败：{exc}"
+        result["error"] = f"调用模型失败：{type(exc).__name__}"
         return result
 
     result["answer"] = answer
