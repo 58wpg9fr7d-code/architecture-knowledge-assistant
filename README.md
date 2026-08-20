@@ -85,7 +85,7 @@ ollama pull qwen2:7b
 
 ```bash
 export GEMINI_API_KEY="你的 Gemini API Key"
-export GEMINI_MODEL="gemini-2.5-flash"
+export GEMINI_MODEL="gemini-3.5-flash"
 ```
 
 也可以复制 `.streamlit/secrets.toml.example` 为 `.streamlit/secrets.toml` 后填写密钥。密钥文件不要提交到 Git。

@@ -35,7 +35,9 @@ DOCUMENTS_DIR = APP_DIR / "documents"
 DB_DIR = APP_DIR / ".chroma_db"
 DEFAULT_OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2:7b")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
-DEFAULT_GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+# Gemini 2.5 Flash is no longer available on the current Gemini API endpoint.
+# Keep the model overridable through GEMINI_MODEL for deployment-specific changes.
+DEFAULT_GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 SUPPORTED_SUFFIXES = {".txt", ".md", ".pdf"}
 
@@ -315,7 +317,8 @@ def query(question: str, provider: str = "Gemini Cloud", model: str | None = Non
         result["error"] = f"无法连接 {provider}。请确认服务已启动。"
         return result
     except requests.exceptions.HTTPError as exc:
-        result["error"] = f"模型服务返回错误：{exc}"
+        status_code = exc.response.status_code if exc.response is not None else "unknown"
+        result["error"] = f"模型服务返回错误（HTTP {status_code}）。"
         return result
     except Exception as exc:
         result["error"] = f"调用模型失败：{exc}"

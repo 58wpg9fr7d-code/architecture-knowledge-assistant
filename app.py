@@ -228,11 +228,13 @@ def main():
                 st.info(f"请先运行：ollama run {model}")
             st.stop()
         except requests.exceptions.HTTPError as exc:
-            st.error(f"模型服务返回错误：{exc}")
+            # Do not render the raw exception: requests includes the API-key URL.
+            status_code = exc.response.status_code if exc.response is not None else "unknown"
+            st.error(f"模型服务返回错误（HTTP {status_code}）。")
             if provider == "Ollama 本地":
                 st.info(f"如果模型不存在，请先运行：ollama pull {model}")
             else:
-                st.info("请检查 GEMINI_API_KEY 是否有效，以及模型名称是否在 Gemini 支持列表中。")
+                st.info("请检查 GEMINI_API_KEY 是否有效，以及模型名称是否在 Gemini 支持列表中。不会显示密钥内容。")
             st.stop()
         except RuntimeError as exc:
             st.error(str(exc))
