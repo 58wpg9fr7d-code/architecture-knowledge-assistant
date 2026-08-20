@@ -36,8 +36,13 @@ DB_DIR = APP_DIR / ".chroma_db"
 DEFAULT_OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2:7b")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
 # Gemini 2.5 Flash is no longer available on the current Gemini API endpoint.
-# Keep the model overridable through GEMINI_MODEL for deployment-specific changes.
-DEFAULT_GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
+# Ignore that stale deployment setting while keeping newer overrides possible.
+_configured_gemini_model = os.getenv("GEMINI_MODEL", "").strip()
+DEFAULT_GEMINI_MODEL = (
+    "gemini-3.5-flash"
+    if not _configured_gemini_model or _configured_gemini_model == "gemini-2.5-flash"
+    else _configured_gemini_model
+)
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 SUPPORTED_SUFFIXES = {".txt", ".md", ".pdf"}
 
@@ -107,13 +112,17 @@ _embeddings_instance: Embeddings | None = None
 
 
 def get_embeddings() -> Embeddings:
-    """Return an Embeddings instance (singleton). Tries HuggingFace first, falls back to hash."""
+    """Return an Embeddings instance (singleton).
+
+    The lightweight hash embedding is the default for a reliable cloud demo.
+    HuggingFace can be enabled explicitly with ENABLE_HF_EMBEDDINGS=1.
+    """
     global _embeddings_instance
     if _embeddings_instance is not None:
         return _embeddings_instance
 
-    is_hf_disabled = str(get_secret("DISABLE_HF_EMBEDDINGS", "")).lower() in {"1", "true", "yes"}
-    if is_hf_disabled:
+    is_hf_enabled = str(get_secret("ENABLE_HF_EMBEDDINGS", "")).lower() in {"1", "true", "yes"}
+    if not is_hf_enabled:
         _embeddings_instance = HashEmbeddings()
         return _embeddings_instance
 

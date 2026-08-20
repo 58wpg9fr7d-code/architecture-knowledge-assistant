@@ -88,6 +88,8 @@ export GEMINI_API_KEY="你的 Gemini API Key"
 export GEMINI_MODEL="gemini-3.5-flash"
 ```
 
+云端演示默认使用轻量哈希向量，避免首次启动下载 HuggingFace / PyTorch 依赖；如需启用 HuggingFace 向量模型，可额外设置 `ENABLE_HF_EMBEDDINGS=1`。
+
 也可以复制 `.streamlit/secrets.toml.example` 为 `.streamlit/secrets.toml` 后填写密钥。密钥文件不要提交到 Git。
 
 ### 3. 启动 Streamlit
