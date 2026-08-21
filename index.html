@@ -71,6 +71,17 @@
     .visual-line { height: 11px; border-radius: 8px; background: #e8eef7; }
     .visual-line.short { width: 62%; }
     .visual-line.blue { width: 78%; background: #bfd0ff; }
+    .knowledge-orbit { position: relative; height: 218px; margin-top: 8px; display: grid; place-items: center; }
+    .orbit-ring { position: absolute; border: 1px solid rgba(59,110,234,.18); border-radius: 50%; }
+    .orbit-ring.one { width: 174px; height: 174px; }
+    .orbit-ring.two { width: 118px; height: 118px; border-color: rgba(22,138,132,.22); }
+    .orbit-core { position: relative; z-index: 2; width: 70px; height: 70px; display: grid; place-items: center; border: 5px solid #dce6ff; border-radius: 50%; color: #fff; background: var(--blue); box-shadow: 0 10px 26px rgba(59,110,234,.28); text-align: center; font-size: 11px; font-weight: 800; line-height: 1.25; }
+    .orbit-node { position: absolute; z-index: 3; min-width: 58px; padding: 7px 9px; border: 1px solid #d9e3f5; border-radius: 999px; color: var(--navy); background: rgba(255,255,255,.96); box-shadow: 0 5px 14px rgba(28,52,84,.10); text-align: center; font-size: 10px; font-weight: 700; }
+    .orbit-node.a { top: 13px; left: 50%; transform: translateX(-50%); }
+    .orbit-node.b { right: 14px; top: 82px; }
+    .orbit-node.c { left: 14px; top: 82px; }
+    .orbit-node.d { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .visual-caption { margin-top: 3px; color: var(--muted); font-size: 11px; text-align: center; }
     .visual-tag { position: absolute; right: -6px; bottom: 28px; width: 176px; padding: 16px; transform: rotate(-5deg); color: #fff; border-radius: 14px; background: var(--navy); box-shadow: 0 16px 30px rgba(19,34,56,.24); }
     .visual-tag strong { display: block; font-size: 14px; }
     .visual-tag span { display: block; margin-top: 7px; color: #c7d5e8; font-size: 11px; line-height: 1.55; }
@@ -85,6 +96,24 @@
     .feature-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; color: var(--blue-dark); background: var(--blue-soft); font-weight: 800; }
     .feature h3 { margin: 19px 0 7px; font-size: 16px; }
     .feature p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .data-strip { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .data-item { padding: 15px 17px; border: 1px solid #cfdbea; border-radius: 13px; background: #f8faff; }
+    .data-item strong { display: block; color: var(--navy); font-size: 18px; }
+    .data-item span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .query-demo { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; padding: 20px; border: 1px solid #cfdbea; border-radius: 16px; background: var(--paper); box-shadow: 0 14px 35px rgba(28,52,84,.07); }
+    .query-panel { padding: 3px; }
+    .query-label { display: block; margin-bottom: 9px; color: var(--navy); font-size: 14px; font-weight: 750; }
+    .query-input { width: 100%; min-height: 92px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fbfcff; font: inherit; line-height: 1.6; resize: vertical; outline: none; }
+    .query-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,110,234,.12); }
+    .query-actions { display: flex; align-items: center; gap: 10px; margin-top: 11px; }
+    .query-hint { color: #8a97a8; font-size: 11px; line-height: 1.45; }
+    .answer-card { min-height: 190px; padding: 18px; border-radius: 12px; background: #f5f8ff; }
+    .answer-top { display: flex; justify-content: space-between; gap: 14px; align-items: center; }
+    .answer-title { color: var(--navy); font-size: 14px; font-weight: 800; }
+    .simulated-badge { padding: 5px 8px; border-radius: 999px; color: #74601c; background: #fff4c7; font-size: 10px; font-weight: 800; }
+    .answer-text { margin: 15px 0 12px; color: var(--ink); font-size: 13px; line-height: 1.75; }
+    .answer-source { padding-top: 10px; border-top: 1px solid #dce5f5; color: var(--muted); font-size: 11px; }
+    .answer-source strong { color: var(--teal); }
     .workflow { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--paper); }
     .workflow-item { position: relative; min-height: 156px; padding: 22px; border-right: 1px solid var(--line); }
     .workflow-item:last-child { border-right: 0; }
@@ -112,6 +141,8 @@
       .hero-grid { grid-template-columns: 1fr; gap: 30px; }
       .hero-visual { min-height: 300px; }
       .feature-grid { grid-template-columns: 1fr; }
+      .data-strip { grid-template-columns: 1fr; }
+      .query-demo { grid-template-columns: 1fr; }
       .workflow { grid-template-columns: 1fr 1fr; }
       .workflow-item:nth-child(2) { border-right: 0; }
       .workflow-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -164,7 +195,12 @@
           <div class="visual-card visual-main">
             <div class="visual-title">建筑案例分析</div>
             <div class="visual-sub">从资料收集到结构化洞察，一次完成</div>
-            <div class="visual-lines"><div class="visual-line blue"></div><div class="visual-line"></div><div class="visual-line short"></div><div class="visual-line"></div></div>
+            <div class="knowledge-orbit" aria-label="资料、检索、分析和回答的关系图">
+              <span class="orbit-ring one"></span><span class="orbit-ring two"></span>
+              <span class="orbit-node a">规范</span><span class="orbit-node b">检索</span><span class="orbit-node c">文献</span><span class="orbit-node d">案例</span>
+              <span class="orbit-core">AI<br>知识中枢</span>
+            </div>
+            <div class="visual-caption">资料 → 检索 → 可追溯回答</div>
           </div>
           <div class="visual-tag"><strong>可追溯的 AI 回答</strong><span>回答基于已上传资料，并保留来源上下文。</span></div>
         </div>
@@ -178,6 +214,29 @@
           <article class="feature"><div class="feature-icon">01</div><h3>资料集中管理</h3><p>把规范、文献和案例放进同一个可持续整理的资料空间。</p></article>
           <article class="feature"><div class="feature-icon">02</div><h3>自然语言检索</h3><p>用问题描述目标，系统从相关文档片段中召回信息并组织回答。</p></article>
           <article class="feature"><div class="feature-icon">03</div><h3>来源可以核验</h3><p>回答保留来源片段，帮助用户判断答案是否真的有资料依据。</p></article>
+        </div>
+        <div class="data-strip" aria-label="演示资料库构成">
+          <div class="data-item"><strong>17 份</strong><span>真实 RAG Demo 当前预置的本地测试资料</span></div>
+          <div class="data-item"><strong>13 份 TXT</strong><span>建筑规范核心要点，便于快速检索和验证</span></div>
+          <div class="data-item"><strong>4 份 PDF</strong><span>建筑文献与案例材料，用于补充专业语境</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="query-demo">
+      <div class="wrap">
+        <div class="section-head"><div><p class="section-kicker">Try a Question</p><h2>先用一个问题感受回答结构</h2></div><p class="section-desc">这里是静态演示问答：可以输入问题并看到预设回答，展示“答案 + 来源”的产品形态；真实检索请打开 Streamlit Demo。</p></div>
+        <div class="query-demo">
+          <div class="query-panel">
+            <label class="query-label" for="demo-question">你想问建筑资料什么？</label>
+            <textarea class="query-input" id="demo-question">建筑设计中，如何通过场地策略组织人流和车辆流线？</textarea>
+            <div class="query-actions"><button class="button primary" id="run-demo-query" type="button">生成演示回答</button><span class="query-hint">不会调用模型，不会上传你的问题</span></div>
+          </div>
+          <div class="answer-card" id="demo-answer" aria-live="polite">
+            <div class="answer-top"><span class="answer-title">ArchMind 演示回答</span><span class="simulated-badge">静态模拟</span></div>
+            <p class="answer-text">可以先从场地边界、主要入口和车辆/人行流线三个关系入手：沿基地边缘组织建筑体量，用清晰的入口方向强化识别，并把车辆出入与访客路径分开表达。正式分析时，还需要结合总平面图和设计说明核对。</p>
+            <div class="answer-source"><strong>来源片段</strong> · sample_architecture.txt · 场地策略 / 流线组织</div>
+          </div>
         </div>
       </div>
     </section>
@@ -196,7 +255,7 @@
 
     <section class="section" id="demo">
       <div class="wrap">
-        <div class="section-head"><div><p class="section-kicker">Interactive Prototype</p><h2>现在就体验产品路径</h2></div><p class="section-desc">这是 v2.0 的公开交互原型，重点展示信息架构和核心交互；需要真实输入问答时，请打开上方的 Streamlit Demo。</p></div>
+        <div class="section-head"><div><p class="section-kicker">Interactive Prototype</p><h2>现在就体验产品路径</h2></div><p class="section-desc">这是 v2.0 的公开交互原型，重点展示资料上传、分析维度、结构化报告和导出流程；真实 RAG 问答请使用上方的 Streamlit Demo。</p></div>
         <div class="demo-shell">
           <div class="demo-toolbar"><span><i class="demo-dot"></i> ArchMind · 案例分析工作台</span><span>公开访问 · 无需登录</span></div>
           <iframe title="ArchMind AI 建筑知识助手产品原型" src="ArchMind_Axure_6页产品原型.html" loading="lazy"></iframe>
@@ -209,5 +268,19 @@
   <footer class="footer">
     <div class="wrap footer-inner"><span>ArchMind · AI 建筑知识助手</span><div class="footer-links"><a href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant" target="_blank" rel="noreferrer">GitHub 源码 ↗</a><a href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">真实 RAG Demo ↗</a></div></div>
   </footer>
+  <script>
+    const demoAnswer = document.querySelector('#demo-answer .answer-text');
+    const demoSource = document.querySelector('#demo-answer .answer-source');
+    document.getElementById('run-demo-query').addEventListener('click', () => {
+      const question = document.getElementById('demo-question').value.trim();
+      if (!question) {
+        demoAnswer.textContent = '请先输入一个问题。你可以试试“建筑设计中，如何通过场地策略组织人流和车辆流线？”';
+        demoSource.innerHTML = '<strong>演示提示</strong> · 这是静态页面，不会调用模型';
+        return;
+      }
+      demoAnswer.textContent = '基于当前演示资料，系统会先识别问题中的“场地策略”和“流线组织”，再从相关案例片段中提取入口、边界和人车分流信息。正式使用时，回答还需要结合检索到的原文和具体页码核验。';
+      demoSource.innerHTML = '<strong>来源片段</strong> · sample_architecture.txt · 场地策略 / 流线组织 · <span>本次为静态模拟</span>';
+    });
+  </script>
 </body>
 </html>
