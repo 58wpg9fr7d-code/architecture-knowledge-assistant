@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -592,6 +593,74 @@
       font-weight: 600;
     }
 
+    /* Product UI visual pass: turn the low-fidelity flow into a calmer, usable workspace. */
+    :root {
+      --bg: #eef3f8;
+      --surface: #ffffff;
+      --panel: #f7faff;
+      --ink: #17263b;
+      --muted: #6d7c90;
+      --subtle: #9aa8b8;
+      --line: #dce5ef;
+      --line-dark: #bdccdc;
+      --fill: #edf2f7;
+      --fill-strong: #e2eaf3;
+      --active: #2f67dd;
+      --active-soft: #edf3ff;
+      --warning: #fff7e6;
+      --success: #eaf8f2;
+      --shadow: 0 24px 60px rgba(37, 64, 96, .12);
+    }
+    body { padding: 22px; background: radial-gradient(circle at 10% 0%, #f9fbff 0, var(--bg) 42%, #e8eef5 100%); }
+    .prototype { border: 0; border-radius: 18px; box-shadow: var(--shadow); }
+    .topbar { min-height: 82px; height: auto; padding: 16px 24px; background: #17263b; border-bottom: 0; }
+    .brand-title { color: #fff; font-size: 18px; letter-spacing: -.02em; }
+    .brand-subtitle { color: #aebdd0; font-size: 12px; }
+    .steps { gap: 5px; }
+    .step { min-height: 48px; padding: 8px 10px; color: #aebdd0; border-color: transparent; border-radius: 10px; transition: background .18s, color .18s, transform .18s; }
+    .step:hover, .step:focus-visible { color: #fff; background: rgba(255,255,255,.1); transform: translateY(-1px); outline: none; }
+    .step.active { color: #17263b; border-color: #fff; background: #fff; box-shadow: 0 8px 18px rgba(0,0,0,.12); }
+    .step.active strong { color: var(--active); }
+    .screen { background: #fff; }
+    .screen-header { padding: 36px 40px 24px; background: linear-gradient(135deg, #fff 0%, #f7faff 100%); }
+    .screen-header h1 { color: var(--ink); letter-spacing: -.035em; }
+    .screen-header p { color: var(--muted); }
+    .body { padding: 32px 40px 28px; }
+    .panel, .card, .option-card, .analysis-card, .preview-box, .side-box, .confidence, .dimension-box { border-color: var(--line); border-radius: 12px; box-shadow: 0 8px 24px rgba(37,64,96,.045); }
+    .panel { padding: 22px; }
+    .section-title { color: var(--ink); }
+    .input, .textarea { border-color: var(--line-dark); border-radius: 9px; }
+    .input:focus, .textarea:focus { border-color: var(--active); box-shadow: 0 0 0 3px rgba(47,103,221,.12); }
+    .upload { border-color: #9db9e9; border-radius: 12px; background: #f6f9ff; transition: border-color .18s, background .18s, transform .18s; }
+    .upload:hover { border-color: var(--active); background: #f0f5ff; transform: translateY(-2px); }
+    .chip, .btn, .export-button { border-radius: 9px; transition: border-color .18s, background .18s, color .18s, transform .18s, box-shadow .18s; }
+    .chip { cursor: pointer; }
+    .chip:focus-visible, .regen:focus-visible, .upload .btn:focus-visible, .export-button:focus-visible { outline: 3px solid rgba(47,103,221,.25); outline-offset: 3px; }
+    .chip:hover { border-color: var(--active); color: var(--active); }
+    .chip.active { border-color: var(--active); background: var(--active); }
+    .option-card { cursor: pointer; }
+    .option-card:hover, .option-card:focus-visible { border-color: var(--active); background: var(--active-soft); transform: translateY(-2px); outline: none; }
+    .option-card.selected { border-color: var(--active); background: var(--active-soft); box-shadow: inset 0 0 0 1px var(--active); }
+    .btn { border-color: var(--line-dark); }
+    .btn:hover, .export-button:hover { border-color: var(--active); color: var(--active); background: var(--active-soft); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(47,103,221,.1); }
+    .btn.primary { border-color: var(--active); background: var(--active); }
+    .btn.primary:hover { color: #fff; background: #2456c4; }
+    .footer { min-height: 78px; height: auto; background: #f7faff; border-top-color: var(--line); }
+    .screen.active { animation: screen-in .28s ease both; }
+    @keyframes screen-in { from { opacity: .3; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 1100px) and (min-width: 561px) {
+      .topbar { align-items: stretch; flex-direction: column; }
+      .brand { min-width: 0; }
+      .steps { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .topbar { gap: 14px; }
+      .steps { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+      .step { min-height: 46px; padding: 7px 8px; }
+      .step span { font-size: 12px; }
+    }
+    @media (max-width: 560px) { body { padding: 8px; } .topbar, .screen-header, .body, .footer { padding-left: 18px; padding-right: 18px; } .brand-title { font-size: 16px; } }
+
     .mt-12 { margin-top: 12px; }
     .mt-16 { margin-top: 16px; }
     .mt-22 { margin-top: 22px; }
@@ -778,7 +847,7 @@
 
     <section class="screen" id="page-4">
       <div class="screen-header">
-        <h1>分析报告 · 维特拉消防站</h1>
+        <h1>分析报告 · <span data-case-name>维特拉消防站</span></h1>
         <p>报告内容按所选维度生成，并标注资料来源与置信度。</p>
       </div>
       <div class="body report-layout">
@@ -864,7 +933,7 @@
         </div>
         <div class="preview-box">
           <strong>课程汇报版预览</strong><br>
-          1. 案例背景：维特拉园区中的消防站功能<br>
+          1. 案例背景：<span data-case-name>维特拉消防站</span>的功能与语境<br>
           2. 场地策略：沿基地边界形成线性导向<br>
           3. 空间尺度：6m 层高对应车辆与集结需求<br>
           4. 材料表达：清水混凝土强化连续墙面<br>
@@ -933,7 +1002,11 @@
 
     function showPage(id) {
       screens.forEach((screen) => screen.classList.toggle('active', screen.id === id));
-      navSteps.forEach((step) => step.classList.toggle('active', step.dataset.target === id));
+      navSteps.forEach((step) => {
+        const active = step.dataset.target === id;
+        step.classList.toggle('active', active);
+        step.setAttribute('aria-current', active ? 'step' : 'false');
+      });
       const current = document.getElementById(id);
       if (current) {
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -954,6 +1027,73 @@
     if (initial && document.getElementById(initial)) {
       showPage(initial);
     }
+
+    document.querySelectorAll('.option-card').forEach((card) => {
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.addEventListener('click', () => {
+        const group = card.parentElement;
+        group.querySelectorAll('.option-card').forEach((item) => item.classList.remove('selected'));
+        card.classList.add('selected');
+      });
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.chips').forEach((group) => {
+      group.querySelectorAll('.chip').forEach((chip) => {
+        chip.setAttribute('tabindex', '0');
+        chip.setAttribute('role', 'button');
+        const toggleChip = () => chip.classList.toggle('active');
+        chip.addEventListener('click', toggleChip);
+        chip.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleChip();
+          }
+        });
+      });
+    });
+
+    document.querySelectorAll('.upload .btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        button.textContent = button.textContent.includes('已添加') ? '点击上传' : '已添加示例文件 ✓';
+      });
+    });
+
+    const caseInput = document.getElementById('case-name');
+    const caseNames = document.querySelectorAll('[data-case-name]');
+    caseInput?.addEventListener('input', () => {
+      const value = caseInput.value.trim() || '维特拉消防站';
+      caseNames.forEach((item) => { item.textContent = value; });
+    });
+
+    document.querySelectorAll('.regen').forEach((button) => {
+      button.addEventListener('click', () => {
+        button.textContent = button.textContent.includes('完成') ? '重新生成此段' : '✓ 重新生成完成';
+      });
+    });
+
+    document.querySelectorAll('.export-button, .panel > .btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const original = button.querySelector('strong')?.textContent || button.textContent;
+        if (button.classList.contains('export-button')) {
+          const label = button.querySelector('strong');
+          if (label) label.textContent = '✓ 已准备导出';
+          window.setTimeout(() => { if (label) label.textContent = original; }, 1500);
+        }
+      });
+    });
+
+    window.addEventListener('message', (event) => {
+      if (event.data?.type === 'archmind:navigate' && document.getElementById(event.data.target)) {
+        showPage(event.data.target);
+      }
+    });
   </script>
 </body>
 </html>
