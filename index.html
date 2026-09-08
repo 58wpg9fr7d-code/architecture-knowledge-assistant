@@ -3,172 +3,169 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ArchMind AI 建筑知识助手：面向建筑规范、文献和案例研究的资料检索与分析工作流。">
+  <meta name="description" content="ArchMind AI 建筑知识助手：面向建筑规范、文献和案例资料的检索与分析工作流。">
   <title>ArchMind · AI 建筑知识助手</title>
   <style>
     :root {
-      --navy: #132238;
-      --ink: #1c2b3d;
-      --muted: #66758a;
-      --line: #dbe4ee;
-      --paper: #ffffff;
-      --canvas: #f4f7fb;
-      --blue: #3b6eea;
-      --blue-dark: #2856c7;
-      --blue-soft: #eaf0ff;
-      --teal: #168a84;
-      --shadow: 0 22px 60px rgba(28, 52, 84, .12);
+      --ink: #14181f;
+      --muted: #5c6773;
+      --faint: #8a94a1;
+      --line: #e6e9ee;
+      --bg: #ffffff;
+      --bg-soft: #f6f7f9;
+      --blue: #2f5bdb;
+      --blue-deep: #2447ad;
+      --blue-soft: #edf1fc;
+      --shadow-lg: 0 30px 80px rgba(18, 28, 48, .16);
+      --shadow-sm: 0 6px 20px rgba(18, 28, 48, .08);
     }
-
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
       color: var(--ink);
-      background: var(--canvas);
+      background: var(--bg);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
+    /* ===== 导航 ===== */
     .nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      border-bottom: 1px solid rgba(219, 228, 238, .88);
-      background: rgba(244, 247, 251, .88);
-      backdrop-filter: blur(16px);
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(255, 255, 255, .86);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
     }
-    .nav-inner, .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
-    .nav-inner { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 750; letter-spacing: -.02em; }
-    .logo-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--navy); display: grid; place-items: center; color: #fff; font-size: 14px; }
-    .nav-links { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: 13px; }
-    .nav-links a:hover { color: var(--blue); }
-    .nav-cta { padding: 10px 15px; border-radius: 9px; color: #fff; background: var(--navy); font-weight: 650; }
+    .nav-inner { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-weight: 800; letter-spacing: -.01em; }
+    .logo-mark {
+      width: 27px; height: 27px; display: grid; place-items: center;
+      border-radius: 8px; background: var(--blue); color: #fff; font-size: 13px; font-weight: 800;
+    }
+    .nav-links { display: flex; align-items: center; gap: 24px; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { padding: 8px 15px; border-radius: 8px; color: #fff; background: var(--blue); font-weight: 650; }
+    .nav-cta:hover { background: var(--blue-deep); }
 
-    .hero { padding: 78px 0 42px; }
-    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 68px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border: 1px solid #cbd8ef; border-radius: 999px; color: var(--blue-dark); background: var(--blue-soft); font-size: 12px; font-weight: 700; letter-spacing: .04em; }
-    .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: #35b39c; box-shadow: 0 0 0 4px rgba(53,179,156,.15); }
-    h1 { margin: 20px 0 16px; max-width: 650px; color: var(--navy); font-size: clamp(42px, 6vw, 70px); line-height: 1.02; letter-spacing: -.055em; }
-    .hero-copy { max-width: 580px; margin: 0; color: var(--muted); font-size: 18px; line-height: 1.75; }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 17px; border: 1px solid transparent; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 700; transition: transform .18s, box-shadow .18s, background .18s; }
-    .button:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(28,52,84,.12); }
-    .button.primary { color: #fff; background: var(--blue); }
-    .button.primary:hover { background: var(--blue-dark); }
-    .button.ghost { color: var(--navy); border-color: var(--line); background: var(--paper); }
-    .hero-note { margin-top: 18px; color: #8a97a8; font-size: 12px; }
-    .hero-visual { position: relative; min-height: 360px; }
-    .visual-card { position: absolute; border: 1px solid rgba(255,255,255,.75); border-radius: 18px; background: rgba(255,255,255,.84); box-shadow: var(--shadow); backdrop-filter: blur(14px); }
-    .visual-main { inset: 22px 10px 0 34px; padding: 22px; transform: rotate(2deg); }
-    .visual-main:before { content: ""; display: block; width: 82px; height: 8px; margin-bottom: 25px; border-radius: 8px; background: #dfe7f4; box-shadow: 100px 0 0 #edf2f8, 132px 0 0 #edf2f8; }
-    .visual-title { font-size: 22px; font-weight: 750; color: var(--navy); }
-    .visual-sub { margin-top: 8px; color: var(--muted); font-size: 12px; }
-    .visual-lines { display: grid; gap: 11px; margin-top: 30px; }
-    .visual-line { height: 11px; border-radius: 8px; background: #e8eef7; }
-    .visual-line.short { width: 62%; }
-    .visual-line.blue { width: 78%; background: #bfd0ff; }
-    .knowledge-orbit { position: relative; height: 218px; margin-top: 8px; display: grid; place-items: center; }
-    .orbit-ring { position: absolute; border: 1px solid rgba(59,110,234,.18); border-radius: 50%; }
-    .orbit-ring.one { width: 174px; height: 174px; }
-    .orbit-ring.two { width: 118px; height: 118px; border-color: rgba(22,138,132,.22); }
-    .orbit-core { position: relative; z-index: 2; width: 70px; height: 70px; display: grid; place-items: center; border: 5px solid #dce6ff; border-radius: 50%; color: #fff; background: var(--blue); box-shadow: 0 10px 26px rgba(59,110,234,.28); text-align: center; font-size: 11px; font-weight: 800; line-height: 1.25; }
-    .orbit-node { position: absolute; z-index: 3; min-width: 58px; padding: 7px 9px; border: 1px solid #d9e3f5; border-radius: 999px; color: var(--navy); background: rgba(255,255,255,.96); box-shadow: 0 5px 14px rgba(28,52,84,.10); text-align: center; font-size: 10px; font-weight: 700; }
-    .orbit-node.a { top: 13px; left: 50%; transform: translateX(-50%); }
-    .orbit-node.b { right: 14px; top: 82px; }
-    .orbit-node.c { left: 14px; top: 82px; }
-    .orbit-node.d { bottom: 10px; left: 50%; transform: translateX(-50%); }
-    .visual-caption { margin-top: 3px; color: var(--muted); font-size: 11px; text-align: center; }
-    .visual-tag { position: absolute; right: -6px; bottom: 28px; width: 176px; padding: 16px; transform: rotate(-5deg); color: #fff; border-radius: 14px; background: var(--navy); box-shadow: 0 16px 30px rgba(19,34,56,.24); }
-    .visual-tag strong { display: block; font-size: 14px; }
-    .visual-tag span { display: block; margin-top: 7px; color: #c7d5e8; font-size: 11px; line-height: 1.55; }
+    /* ===== Hero ===== */
+    .hero { padding: 84px 0 60px; text-align: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 12px; border: 1px solid #d7e0f6; border-radius: 999px;
+      color: var(--blue); font-size: 12px; font-weight: 650; letter-spacing: .05em;
+    }
+    .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+    h1 {
+      margin: 24px auto 16px; max-width: 760px;
+      font-size: clamp(42px, 6vw, 68px); line-height: 1.08; letter-spacing: -.045em;
+      color: var(--ink); font-weight: 800;
+    }
+    h1 span { color: var(--blue); }
+    .hero-sub { max-width: 520px; margin: 0 auto; color: var(--muted); font-size: 17px; line-height: 1.65; }
+    .hero-actions { display: flex; justify-content: center; gap: 12px; margin-top: 32px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 22px; border-radius: 10px;
+      font-size: 14px; font-weight: 700; transition: transform .16s, box-shadow .16s, background .16s;
+    }
+    .button:hover { transform: translateY(-1px); }
+    .button.primary { color: #fff; background: var(--blue); box-shadow: 0 10px 24px rgba(47, 91, 219, .22); }
+    .button.primary:hover { background: var(--blue-deep); }
+    .button.ghost { color: var(--ink); border: 1px solid var(--line); background: var(--bg); }
+    .button.ghost:hover { background: var(--bg-soft); }
 
-    .section { padding: 48px 0; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
-    .section-kicker { margin: 0 0 7px; color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    h2 { margin: 0; color: var(--navy); font-size: clamp(26px, 3vw, 38px); letter-spacing: -.04em; }
-    .section-desc { max-width: 420px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .feature { min-height: 178px; padding: 23px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
-    .feature-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; color: var(--blue-dark); background: var(--blue-soft); font-weight: 800; }
-    .feature h3 { margin: 19px 0 7px; font-size: 16px; }
-    .feature p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-    .data-strip { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
-    .data-item { padding: 15px 17px; border: 1px solid #cfdbea; border-radius: 13px; background: #f8faff; }
-    .data-item strong { display: block; color: var(--navy); font-size: 18px; }
-    .data-item span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.45; }
-    .query-demo { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; padding: 20px; border: 1px solid #cfdbea; border-radius: 16px; background: var(--paper); box-shadow: 0 14px 35px rgba(28,52,84,.07); }
-    .query-panel { padding: 3px; }
-    .query-label { display: block; margin-bottom: 9px; color: var(--navy); font-size: 14px; font-weight: 750; }
-    .query-input { width: 100%; min-height: 92px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fbfcff; font: inherit; line-height: 1.6; resize: vertical; outline: none; }
-    .query-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,110,234,.12); }
-    .query-actions { display: flex; align-items: center; gap: 10px; margin-top: 11px; }
-    .query-hint { color: #8a97a8; font-size: 11px; line-height: 1.45; }
-    .answer-card { min-height: 190px; padding: 18px; border-radius: 12px; background: #f5f8ff; }
-    .answer-top { display: flex; justify-content: space-between; gap: 14px; align-items: center; }
-    .answer-title { color: var(--navy); font-size: 14px; font-weight: 800; }
-    .simulated-badge { padding: 5px 8px; border-radius: 999px; color: #74601c; background: #fff4c7; font-size: 10px; font-weight: 800; }
-    .answer-text { margin: 15px 0 12px; color: var(--ink); font-size: 13px; line-height: 1.75; }
-    .answer-source { padding-top: 10px; border-top: 1px solid #dce5f5; color: var(--muted); font-size: 11px; }
-    .answer-source strong { color: var(--teal); }
-    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--paper); }
-    .workflow-item { position: relative; min-height: 156px; padding: 22px; border-right: 1px solid var(--line); }
-    .workflow-item:last-child { border-right: 0; }
-    .workflow-num { color: var(--blue); font-size: 12px; font-weight: 800; }
-    .workflow h3 { margin: 24px 0 7px; font-size: 16px; }
-    .workflow p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    /* ===== 产品工作台示意 ===== */
+    .app-showcase { position: relative; margin: 64px auto 0; max-width: 920px; text-align: left; }
+    .app-window {
+      border: 1px solid #dfe3ea; border-radius: 18px; background: var(--bg);
+      box-shadow: var(--shadow-lg); overflow: hidden;
+    }
+    .app-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 18px; border-bottom: 1px solid var(--line); background: var(--bg-soft);
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 10px; height: 10px; border-radius: 50%; background: #d8dde5; }
+    .app-title { color: var(--ink); font-size: 13px; font-weight: 650; }
+    .model-tag { padding: 4px 10px; border-radius: 999px; color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 650; }
+    .app-body { padding: 26px 28px 30px; display: grid; gap: 14px; }
+    .chat-q { max-width: 74%; padding: 12px 16px; border-radius: 14px; background: var(--blue-soft); color: var(--ink); font-size: 14px; line-height: 1.55; }
+    .chat-a { max-width: 92%; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); font-size: 14px; line-height: 1.7; color: #2a323c; }
+    .chat-a .src {
+      margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line);
+      color: var(--blue); font-size: 12px; font-weight: 650;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 34px; margin-top: 34px;
+      color: var(--muted); font-size: 13px;
+    }
+    .hero-stats b { color: var(--ink); font-weight: 750; }
 
-    .demo-shell { padding: 11px; border: 1px solid #cfdbea; border-radius: 20px; background: #dfe7f2; box-shadow: var(--shadow); }
-    .demo-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 14px; border-radius: 12px 12px 0 0; background: var(--navy); color: #dbe6f5; font-size: 12px; }
-    .demo-toolbar span:first-child { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+    /* ===== 区块通用 ===== */
+    .section { padding: 78px 0; }
+    .section-head { margin-bottom: 38px; text-align: center; }
+    .section-head h2 { font-size: clamp(26px, 3.2vw, 36px); letter-spacing: -.03em; color: var(--ink); font-weight: 800; }
+    .section-head p { margin-top: 12px; color: var(--muted); font-size: 15px; }
+
+    /* ===== 价值三卡 ===== */
+    .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .value-card { padding: 26px 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); transition: box-shadow .18s, transform .18s; }
+    .value-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+    .value-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; background: var(--blue-soft); color: var(--blue); }
+    .value-card h3 { margin-top: 17px; font-size: 16px; color: var(--ink); }
+    .value-card p { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+
+    /* ===== 工作流四步 ===== */
+    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .step { padding: 24px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+    .step-num { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+    .step h3 { margin-top: 15px; font-size: 15px; color: var(--ink); }
+    .step p { margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    /* ===== 原型区 ===== */
+    .demo-shell { padding: 12px; border: 1px solid #dfe3ea; border-radius: 18px; background: #eceff3; box-shadow: var(--shadow-lg); }
+    .demo-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 16px; border-radius: 11px 11px 0 0; background: var(--ink);
+      color: #dfe4ec; font-size: 12px;
+    }
+    .demo-toolbar .t-title { display: flex; align-items: center; gap: 8px; font-weight: 650; }
     .demo-dot { width: 8px; height: 8px; border-radius: 50%; background: #4fd1b6; }
-    .demo-toolbar span:last-child { color: #9db2ce; }
-    iframe { display: block; width: 100%; height: 760px; border: 0; border-radius: 0 0 12px 12px; background: #fff; }
-    .demo-caption { display: flex; justify-content: space-between; gap: 18px; margin-top: 13px; color: var(--muted); font-size: 12px; line-height: 1.6; }
-    .demo-caption strong { color: var(--ink); }
+    .demo-toolbar .t-tag { color: #8a94a1; }
+    iframe { display: block; width: 100%; height: 700px; border: 0; border-radius: 0 0 11px 11px; background: #fff; }
 
-    .footer { margin-top: 40px; padding: 30px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .footer-inner { display: flex; justify-content: space-between; gap: 18px; }
-    .footer-links { display: flex; gap: 16px; }
+    /* ===== 页脚 ===== */
+    .footer { padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+    .footer-links { display: flex; gap: 20px; }
     .footer-links a:hover { color: var(--blue); }
 
+    /* ===== 响应式 ===== */
     @media (max-width: 860px) {
       .nav-links a:not(.nav-cta) { display: none; }
-      .hero { padding-top: 52px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 30px; }
-      .hero-visual { min-height: 300px; }
-      .feature-grid { grid-template-columns: 1fr; }
-      .data-strip { grid-template-columns: 1fr; }
-      .query-demo { grid-template-columns: 1fr; }
+      .hero { padding: 64px 0 48px; }
+      .value-grid { grid-template-columns: 1fr; }
       .workflow { grid-template-columns: 1fr 1fr; }
-      .workflow-item:nth-child(2) { border-right: 0; }
-      .workflow-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
-      iframe { height: 680px; }
+      iframe { height: 600px; }
     }
     @media (max-width: 540px) {
-      .nav-inner, .wrap { padding-left: 18px; padding-right: 18px; }
-      h1 { font-size: 46px; }
-      .hero-copy { font-size: 16px; }
-      .hero-visual { min-height: 260px; }
-      .visual-main { inset: 15px 0 0 8px; }
-      .visual-tag { right: 0; bottom: 10px; }
+      .wrap { padding: 0 18px; }
+      h1 { font-size: 40px; }
+      .hero-stats { flex-wrap: wrap; gap: 14px 24px; }
+      .app-body { padding: 18px; }
+      .chat-q, .chat-a { max-width: 100%; }
       .workflow { grid-template-columns: 1fr; }
-      .workflow-item, .workflow-item:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
-      .workflow-item:last-child { border-bottom: 0; }
-      .section-head, .demo-caption, .footer-inner { display: block; }
-      .section-desc { margin-top: 12px; }
-      .footer-links { margin-top: 12px; }
-      iframe { height: 610px; }
+      .footer-inner { flex-direction: column; gap: 12px; }
+      iframe { height: 560px; }
     }
   </style>
 </head>
 <body>
+
   <nav class="nav">
-    <div class="nav-inner">
-      <a class="logo" href="#top"><span class="logo-mark">A</span><span>ArchMind</span></a>
+    <div class="wrap nav-inner">
+      <a class="logo" href="#top"><span class="logo-mark">A</span>ArchMind</a>
       <div class="nav-links">
         <a href="#value">产品价值</a>
         <a href="#workflow">工作流</a>
@@ -178,85 +175,113 @@
     </div>
   </nav>
 
-  <main id="top">
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <span class="eyebrow"><i></i> AI KNOWLEDGE WORKFLOW · PUBLIC DEMO</span>
-          <h1>向建筑资料提问，<br><span style="color: var(--blue)">答案有据可查。</span></h1>
-          <p class="hero-copy">上传规范、文献与案例，用自然语言提问，回答附来源片段。</p>
-          <div class="hero-actions">
-            <a class="button primary" href="#demo">体验产品原型 ↓</a>
-            <a class="button ghost" href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">尝试真实问答 ↗</a>
+  <header class="hero" id="top">
+    <div class="wrap">
+      <span class="eyebrow"><i></i>ARCHMIND · AI 建筑知识助手</span>
+      <h1>向建筑资料提问，<br><span>答案有据可查</span></h1>
+      <p class="hero-sub">上传规范、文献与案例，用自然语言提问，回答附来源片段。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">打开真实 Demo ↗</a>
+        <a class="button ghost" href="#demo">体验产品原型 ↓</a>
+      </div>
+      <div class="app-showcase">
+        <div class="app-window">
+          <div class="app-bar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="app-title">ArchMind · AI 建筑知识助手</span>
+            <span class="model-tag">Groq Cloud</span>
           </div>
-        </div>
-        <div class="hero-visual" aria-label="ArchMind 产品界面示意">
-          <div class="visual-card visual-main">
-            <div class="visual-title">建筑案例分析</div>
-            <div class="visual-sub">从资料收集到结构化洞察，一次完成</div>
-            <div class="knowledge-orbit" aria-label="资料、检索、分析和回答的关系图">
-              <span class="orbit-ring one"></span><span class="orbit-ring two"></span>
-              <span class="orbit-node a">规范</span><span class="orbit-node b">检索</span><span class="orbit-node c">文献</span><span class="orbit-node d">案例</span>
-              <span class="orbit-core">AI<br>知识中枢</span>
+          <div class="app-body">
+            <div class="chat-q">无障碍坡道的坡度有什么要求？</div>
+            <div class="chat-a">根据《无障碍设计规范》GB 50763-2012，无障碍坡道的坡度不应大于 1:12（8.33%）；确有困难时可放宽至 1:10，但应相应缩短坡道长度。
+              <div class="src">来源片段 · 无障碍设计规范 · 第 3.4 条</div>
             </div>
-            <div class="visual-caption">资料 → 检索 → 可追溯回答</div>
           </div>
-          <div class="visual-tag"><strong>可追溯的 AI 回答</strong><span>回答基于已上传资料，并保留来源上下文。</span></div>
         </div>
       </div>
-    </section>
+      <div class="hero-stats">
+        <span><b>17</b> 份预置建筑资料</span>
+        <span><b>13</b> TXT + <b>4</b> PDF</span>
+        <span><b>3</b> 种模型服务可切换</span>
+      </div>
+    </div>
+  </header>
 
+  <main>
     <section class="section" id="value">
       <div class="wrap">
-        <div class="section-head"><div><p class="section-kicker">Why ArchMind</p><h2>不是聊天机器人，是资料工作流</h2></div><p class="section-desc">把"找资料、读规范、做分析、准备汇报"拆成连续步骤，减少重复翻阅。</p></div>
-        <div class="feature-grid">
-          <article class="feature"><div class="feature-icon">01</div><h3>资料集中管理</h3><p>规范、文献、案例统一存放、统一管理。</p></article>
-          <article class="feature"><div class="feature-icon">02</div><h3>自然语言检索</h3><p>用自然语言提问，从相关文档中召回答案。</p></article>
-          <article class="feature"><div class="feature-icon">03</div><h3>来源可以核验</h3><p>回答附带来源片段，便于核对依据。</p></article>
+        <div class="section-head">
+          <h2>不是聊天机器人，是资料工作流</h2>
+          <p>把"找资料、读规范、做分析、准备汇报"拆成连续步骤，减少重复翻阅。</p>
         </div>
-        <div class="data-strip" aria-label="演示资料库构成">
-          <div class="data-item"><strong>17 份</strong><span>预置的本地测试资料</span></div>
-          <div class="data-item"><strong>13 份 TXT</strong><span>建筑规范核心要点</span></div>
-          <div class="data-item"><strong>4 份 PDF</strong><span>建筑文献与案例材料</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="query-demo">
-      <div class="wrap">
-        <div class="section-head"><div><p class="section-kicker">Try a Question</p><h2>先用一个问题感受回答结构</h2></div><p class="section-desc">静态演示"答案 + 来源"的产品形态，真实检索请打开 Streamlit Demo。</p></div>
-        <div class="query-demo">
-          <div class="query-panel">
-            <label class="query-label" for="demo-question">你想问建筑资料什么？</label>
-            <textarea class="query-input" id="demo-question">建筑设计中，如何通过场地策略组织人流和车辆流线？</textarea>
-            <div class="query-actions"><button class="button primary" id="run-demo-query" type="button">生成演示回答</button><span class="query-hint">不会调用模型，不会上传你的问题</span></div>
-          </div>
-          <div class="answer-card" id="demo-answer" aria-live="polite">
-            <div class="answer-top"><span class="answer-title">ArchMind 演示回答</span><span class="simulated-badge">静态模拟</span></div>
-            <p class="answer-text">可以先从场地边界、主要入口和车辆/人行流线三个关系入手：沿基地边缘组织建筑体量，用清晰的入口方向强化识别，并把车辆出入与访客路径分开表达。正式分析时，还需要结合总平面图和设计说明核对。</p>
-            <div class="answer-source"><strong>来源片段</strong> · sample_architecture.txt · 场地策略 / 流线组织</div>
-          </div>
+        <div class="value-grid">
+          <article class="value-card">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3>资料集中管理</h3>
+            <p>规范、文献、案例统一存放、统一管理。</p>
+          </article>
+          <article class="value-card">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <h3>自然语言检索</h3>
+            <p>用自然语言提问，从相关文档中召回答案。</p>
+          </article>
+          <article class="value-card">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <h3>来源可以核验</h3>
+            <p>回答附带来源片段，便于核对依据。</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="workflow">
+    <section class="section" id="workflow" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
       <div class="wrap">
-        <div class="section-head"><div><p class="section-kicker">Product Workflow</p><h2>从资料到结论，四步完成</h2></div><p class="section-desc">每个步骤对应原型中的页面，可切换体验。</p></div>
+        <div class="section-head">
+          <h2>从资料到结论，四步完成</h2>
+          <p>每个步骤对应原型中的页面，可切换体验</p>
+        </div>
         <div class="workflow">
-          <article class="workflow-item"><span class="workflow-num">01 · COLLECT</span><h3>上传资料</h3><p>导入你的规范、文献与案例。</p></article>
-          <article class="workflow-item"><span class="workflow-num">02 · FRAME</span><h3>选择分析维度</h3><p>明确研究目的和关注问题。</p></article>
-          <article class="workflow-item"><span class="workflow-num">03 · ANALYZE</span><h3>生成结构化分析</h3><p>围绕所选维度生成分析结果。</p></article>
-          <article class="workflow-item"><span class="workflow-num">04 · EXPORT</span><h3>形成汇报提纲</h3><p>一键整理成汇报提纲。</p></article>
+          <article class="step">
+            <span class="step-num">01 · COLLECT</span>
+            <h3>上传资料</h3>
+            <p>导入你的规范、文献与案例。</p>
+          </article>
+          <article class="step">
+            <span class="step-num">02 · FRAME</span>
+            <h3>选择分析维度</h3>
+            <p>明确研究目的和关注问题。</p>
+          </article>
+          <article class="step">
+            <span class="step-num">03 · ANALYZE</span>
+            <h3>生成结构化分析</h3>
+            <p>围绕所选维度生成分析结果。</p>
+          </article>
+          <article class="step">
+            <span class="step-num">04 · EXPORT</span>
+            <h3>形成汇报提纲</h3>
+            <p>一键整理成汇报提纲。</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section" id="demo">
       <div class="wrap">
-        <div class="section-head"><div><p class="section-kicker">Interactive Prototype</p><h2>现在就体验产品路径</h2></div><p class="section-desc">v2.0 公开交互原型，真实 RAG 问答请使用上方 Streamlit Demo。</p></div>
+        <div class="section-head">
+          <h2>现在就体验产品路径</h2>
+          <p>v2.0 公开交互原型，真实 RAG 问答请使用上方 Streamlit Demo</p>
+        </div>
         <div class="demo-shell">
-          <div class="demo-toolbar"><span><i class="demo-dot"></i> ArchMind · 案例分析工作台</span><span>公开访问 · 无需登录</span></div>
+          <div class="demo-toolbar">
+            <span class="t-title"><i class="demo-dot"></i>ArchMind · 案例分析工作台</span>
+            <span class="t-tag">公开访问 · 无需登录</span>
+          </div>
           <iframe title="ArchMind AI 建筑知识助手产品原型" src="ArchMind_Axure_6页产品原型.html" loading="lazy"></iframe>
         </div>
       </div>
@@ -264,21 +289,14 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap footer-inner"><span>ArchMind · AI 建筑知识助手</span><div class="footer-links"><a href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant" target="_blank" rel="noreferrer">GitHub 源码 ↗</a><a href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">真实 RAG Demo ↗</a></div></div>
+    <div class="wrap footer-inner">
+      <span>ArchMind · AI 建筑知识助手</span>
+      <div class="footer-links">
+        <a href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant" target="_blank" rel="noreferrer">GitHub 源码 ↗</a>
+        <a href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">真实 RAG Demo ↗</a>
+      </div>
+    </div>
   </footer>
-  <script>
-    const demoAnswer = document.querySelector('#demo-answer .answer-text');
-    const demoSource = document.querySelector('#demo-answer .answer-source');
-    document.getElementById('run-demo-query').addEventListener('click', () => {
-      const question = document.getElementById('demo-question').value.trim();
-      if (!question) {
-        demoAnswer.textContent = '请先输入一个问题。你可以试试“建筑设计中，如何通过场地策略组织人流和车辆流线？”';
-        demoSource.innerHTML = '<strong>演示提示</strong> · 这是静态页面，不会调用模型';
-        return;
-      }
-      demoAnswer.textContent = '基于当前演示资料，系统会先识别问题中的“场地策略”和“流线组织”，再从相关案例片段中提取入口、边界和人车分流信息。正式使用时，回答还需要结合检索到的原文和具体页码核验。';
-      demoSource.innerHTML = '<strong>来源片段</strong> · sample_architecture.txt · 场地策略 / 流线组织 · <span>本次为静态模拟</span>';
-    });
-  </script>
+
 </body>
 </html>
