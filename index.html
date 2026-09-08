@@ -137,6 +137,31 @@
     .doc-link:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
     .doc-link svg { color: var(--blue); }
 
+    /* ===== 浏览器插件 ===== */
+    .ext-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 44px; align-items: center; }
+    .ext-popup {
+      width: 300px; margin: 0 auto; border: 1px solid #dfe3ea; border-radius: 16px;
+      background: var(--bg); box-shadow: var(--shadow-lg); overflow: hidden;
+    }
+    .ext-head { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; background: var(--bg-soft); }
+    .ext-logo { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 6px; background: var(--blue); color: #fff; font-size: 10px; font-weight: 800; }
+    .ext-head span { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .ext-body { padding: 16px; display: grid; gap: 10px; }
+    .ext-selected { padding: 9px 11px; border: 1px solid var(--blue); border-radius: 9px; background: var(--blue-soft); color: var(--ink); font-size: 12px; line-height: 1.5; }
+    .ext-selected b { color: var(--blue); }
+    .ext-ask { display: flex; gap: 8px; }
+    .ext-ask .btn { flex: 1; padding: 8px 0; border: 0; border-radius: 8px; color: #fff; background: var(--blue); font-size: 12px; font-weight: 700; text-align: center; }
+    .ext-answer { padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; font-size: 12px; line-height: 1.6; color: #2a323c; }
+    .ext-answer .src { margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line); color: var(--blue); font-size: 11px; font-weight: 650; }
+    .ext-steps { display: grid; gap: 14px; }
+    .ext-step { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+    .ext-step-num {
+      flex: none; width: 28px; height: 28px; display: grid; place-items: center;
+      border-radius: 50%; background: var(--blue-soft); color: var(--blue); font-size: 12px; font-weight: 800;
+    }
+    .ext-step h3 { font-size: 15px; color: var(--ink); }
+    .ext-step p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
     /* ===== 工作流四步 ===== */
     .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .step { padding: 24px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
@@ -169,6 +194,7 @@
       .value-grid { grid-template-columns: 1fr; }
       .process-grid { grid-template-columns: repeat(3, 1fr); }
       .pstep::after { display: none; }
+      .ext-grid { grid-template-columns: 1fr; gap: 26px; }
       .workflow { grid-template-columns: 1fr 1fr; }
       iframe { height: 600px; }
     }
@@ -193,6 +219,7 @@
       <div class="nav-links">
         <a href="#value">产品价值</a>
         <a href="#process">产品流程</a>
+        <a href="#extension">浏览器插件</a>
         <a href="#workflow">工作流</a>
         <a href="#demo">体验原型</a>
         <a class="nav-cta" href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">打开真实 Demo ↗</a>
@@ -304,22 +331,57 @@
           </article>
         </div>
         <div class="doc-links">
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/PRD.md" target="_blank" rel="noreferrer">
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/PRD.docx" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
             PRD 产品需求文档
           </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/竞品分析.md" target="_blank" rel="noreferrer">
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/竞品分析.docx" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
             竞品分析
           </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/用户画像与使用场景.md" target="_blank" rel="noreferrer">
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/用户画像与使用场景.docx" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             用户画像
           </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/评测结果_v1.md" target="_blank" rel="noreferrer">
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/评测结果_v1.docx" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
             RAG 评测结果
           </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="extension" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>浏览器插件，网页随手问</h2>
+          <p>遇到建筑资料不用切换窗口，选中即可提问</p>
+        </div>
+        <div class="ext-grid">
+          <div class="ext-popup" aria-label="浏览器插件界面示意">
+            <div class="ext-head"><span class="ext-logo">A</span><span>ArchMind</span></div>
+            <div class="ext-body">
+              <div class="ext-selected">已选中文字：<b>"防火间距不应小于 6m"</b></div>
+              <div class="ext-ask"><span class="btn">向 ArchMind 提问</span></div>
+              <div class="ext-answer">该要求出自《建筑设计防火规范》GB 50016，具体数值需结合建筑耐火等级核对。
+                <div class="src">来源 · 建筑设计防火规范</div>
+              </div>
+            </div>
+          </div>
+          <div class="ext-steps">
+            <article class="ext-step">
+              <span class="ext-step-num">1</span>
+              <div><h3>网页选中文字</h3><p>在任意网页选中建筑相关的规范条文、专业术语。</p></div>
+            </article>
+            <article class="ext-step">
+              <span class="ext-step-num">2</span>
+              <div><h3>右键一键提交</h3><p>右键菜单中点击"向 ArchMind 提问"，由本地接口转发。</p></div>
+            </article>
+            <article class="ext-step">
+              <span class="ext-step-num">3</span>
+              <div><h3>基于你的资料回答</h3><p>回答检索你上传的资料库，并标注来源，不用切换窗口。</p></div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
