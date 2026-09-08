@@ -4,6 +4,7 @@
 
 ## 快速入口
 
+- 🚀 **在线体验**（Streamlit）：`https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app`
 - 🎯 **面试 Demo**（GitHub Pages，免登录）：<https://58wpg9fr7d-code.github.io/architecture-knowledge-assistant/>
 - 📄 **产品一页纸**：`ArchMind_产品一页纸_合并版.docx`
 - 🎤 **面试材料**：`ArchMind_面试材料_合并版.docx`
