@@ -162,12 +162,27 @@
     .ext-step h3 { font-size: 15px; color: var(--ink); }
     .ext-step p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
-    /* ===== 工作流四步 ===== */
-    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .step { padding: 24px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
-    .step-num { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
-    .step h3 { margin-top: 15px; font-size: 15px; color: var(--ink); }
-    .step p { margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    /* ===== 全流程三阶段 ===== */
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; position: relative; }
+    .flow-stage { border: 1px solid var(--line); border-radius: 14px; background: var(--bg); padding: 20px; position: relative; box-shadow: var(--shadow-sm); }
+    .flow-stage::after {
+      content: ""; position: absolute; right: -25px; top: 50%;
+      width: 10px; height: 10px; border-top: 2px solid #c3cbd8; border-right: 2px solid #c3cbd8; transform: translateY(-50%) rotate(45deg);
+    }
+    .flow-stage:last-child::after { display: none; }
+    .flow-tag {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: var(--blue-soft); color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .05em;
+    }
+    .flow-steps { list-style: none; margin-top: 16px; display: grid; gap: 14px; }
+    .flow-steps li { display: flex; gap: 12px; align-items: flex-start; }
+    .flow-num {
+      flex: none; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--bg-soft); border: 1px solid var(--line); color: var(--blue);
+      font-size: 11px; font-weight: 800; display: grid; place-items: center;
+    }
+    .flow-steps b { font-size: 14px; color: var(--ink); }
+    .flow-steps p { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
 
     /* ===== 原型区 ===== */
     .demo-shell { padding: 12px; border: 1px solid #dfe3ea; border-radius: 18px; background: #eceff3; box-shadow: var(--shadow-lg); }
@@ -195,7 +210,8 @@
       .process-grid { grid-template-columns: repeat(3, 1fr); }
       .pstep::after { display: none; }
       .ext-grid { grid-template-columns: 1fr; gap: 26px; }
-      .workflow { grid-template-columns: 1fr 1fr; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .flow-stage::after { display: none; }
       iframe { height: 600px; }
     }
     @media (max-width: 540px) {
@@ -205,7 +221,7 @@
       .app-body { padding: 18px; }
       .chat-q, .chat-a { max-width: 100%; }
       .process-grid { grid-template-columns: 1fr 1fr; }
-      .workflow { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; gap: 12px; }
       iframe { height: 560px; }
     }
@@ -263,7 +279,7 @@
     <section class="section" id="value">
       <div class="wrap">
         <div class="section-head">
-          <h2>从资料到汇报，一条工作流</h2>
+          <h2>从前期调研到后期汇报，全流程</h2>
           <p>把"找资料、读规范、做分析、准备汇报"拆成连续步骤，减少重复翻阅。</p>
         </div>
         <div class="value-grid">
@@ -389,30 +405,31 @@
     <section class="section" id="workflow">
       <div class="wrap">
         <div class="section-head">
-          <h2>从资料到结论，四步完成</h2>
-          <p>每个步骤对应原型中的页面，可切换体验</p>
+          <h2>一条线走完六步</h2>
+          <p>三个阶段衔接：前期找得到、中期分析透、后期用得上</p>
         </div>
-        <div class="workflow">
-          <article class="step">
-            <span class="step-num">01 · COLLECT</span>
-            <h3>上传资料</h3>
-            <p>导入你的规范、文献与案例。</p>
-          </article>
-          <article class="step">
-            <span class="step-num">02 · FRAME</span>
-            <h3>选择分析维度</h3>
-            <p>明确研究目的和关注问题。</p>
-          </article>
-          <article class="step">
-            <span class="step-num">03 · ANALYZE</span>
-            <h3>生成结构化分析</h3>
-            <p>围绕所选维度生成分析结果。</p>
-          </article>
-          <article class="step">
-            <span class="step-num">04 · EXPORT</span>
-            <h3>形成汇报提纲</h3>
-            <p>一键整理成汇报提纲。</p>
-          </article>
+        <div class="flow">
+          <div class="flow-stage">
+            <span class="flow-tag">前期 · 调研</span>
+            <ul class="flow-steps">
+              <li><span class="flow-num">01</span><div><b>上传资料</b><p>导入规范、文献与案例，统一管理</p></div></li>
+              <li><span class="flow-num">02</span><div><b>提问检索</b><p>自然语言提问，回答附来源片段</p></div></li>
+            </ul>
+          </div>
+          <div class="flow-stage">
+            <span class="flow-tag">中期 · 分析</span>
+            <ul class="flow-steps">
+              <li><span class="flow-num">03</span><div><b>选择分析维度</b><p>明确研究目的与关注问题</p></div></li>
+              <li><span class="flow-num">04</span><div><b>生成结构化分析</b><p>围绕所选维度输出分析结果</p></div></li>
+            </ul>
+          </div>
+          <div class="flow-stage">
+            <span class="flow-tag">后期 · 汇报</span>
+            <ul class="flow-steps">
+              <li><span class="flow-num">05</span><div><b>形成汇报提纲</b><p>一键整理成汇报提纲</p></div></li>
+              <li><span class="flow-num">06</span><div><b>导出沉淀</b><p>导出报告，保存为案例</p></div></li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
