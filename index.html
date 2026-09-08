@@ -116,6 +116,27 @@
     .value-card h3 { margin-top: 17px; font-size: 16px; color: var(--ink); }
     .value-card p { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.65; }
 
+    /* ===== 产品流程 ===== */
+    .process-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+    .pstep { padding: 20px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); position: relative; }
+    .pstep::after {
+      content: ""; position: absolute; right: -8px; top: 50%; transform: translateY(-50%);
+      width: 6px; height: 6px; border-top: 1.5px solid #c3cbd8; border-right: 1.5px solid #c3cbd8; transform: translateY(-50%) rotate(45deg);
+    }
+    .pstep:last-child::after { display: none; }
+    .pstep-num { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+    .pstep h3 { margin-top: 12px; font-size: 15px; color: var(--ink); }
+    .pstep p { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .doc-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .doc-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
+      color: var(--ink); background: var(--bg); font-size: 13px; font-weight: 600;
+      transition: border-color .16s, color .16s, transform .16s;
+    }
+    .doc-link:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
+    .doc-link svg { color: var(--blue); }
+
     /* ===== 工作流四步 ===== */
     .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .step { padding: 24px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
@@ -146,6 +167,8 @@
       .nav-links a:not(.nav-cta) { display: none; }
       .hero { padding: 64px 0 48px; }
       .value-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
+      .pstep::after { display: none; }
       .workflow { grid-template-columns: 1fr 1fr; }
       iframe { height: 600px; }
     }
@@ -155,6 +178,7 @@
       .hero-stats { flex-wrap: wrap; gap: 14px 24px; }
       .app-body { padding: 18px; }
       .chat-q, .chat-a { max-width: 100%; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
       .workflow { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; gap: 12px; }
       iframe { height: 560px; }
@@ -168,6 +192,7 @@
       <a class="logo" href="#top"><span class="logo-mark">A</span>ArchMind</a>
       <div class="nav-links">
         <a href="#value">产品价值</a>
+        <a href="#process">产品流程</a>
         <a href="#workflow">工作流</a>
         <a href="#demo">体验原型</a>
         <a class="nav-cta" href="https://architecture-knowledge-assistan-sevbyy7z3nkrurt6twqma9.streamlit.app/" target="_blank" rel="noreferrer">打开真实 Demo ↗</a>
@@ -240,7 +265,66 @@
       </div>
     </section>
 
-    <section class="section" id="workflow" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+    <section class="section" id="process" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>完整的产品开发流程</h2>
+          <p>从需求调研到上线复盘，每个环节都有对应文档</p>
+        </div>
+        <div class="process-grid">
+          <article class="pstep">
+            <span class="pstep-num">01 · RESEARCH</span>
+            <h3>需求调研</h3>
+            <p>竞品分析 · 用户画像</p>
+          </article>
+          <article class="pstep">
+            <span class="pstep-num">02 · DESIGN</span>
+            <h3>产品设计</h3>
+            <p>PRD · 流程图 · 原型</p>
+          </article>
+          <article class="pstep">
+            <span class="pstep-num">03 · BUILD</span>
+            <h3>技术实现</h3>
+            <p>RAG 核心 · 前端 · 插件</p>
+          </article>
+          <article class="pstep">
+            <span class="pstep-num">04 · TEST</span>
+            <h3>测试验证</h3>
+            <p>20 题评测 · 结果分析</p>
+          </article>
+          <article class="pstep">
+            <span class="pstep-num">05 · LAUNCH</span>
+            <h3>上线运营</h3>
+            <p>Streamlit 公开部署</p>
+          </article>
+          <article class="pstep">
+            <span class="pstep-num">06 · ITERATE</span>
+            <h3>迭代复盘</h3>
+            <p>v2.0 场景化工作流</p>
+          </article>
+        </div>
+        <div class="doc-links">
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/PRD.md" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            PRD 产品需求文档
+          </a>
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/竞品分析.md" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            竞品分析
+          </a>
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/用户画像与使用场景.md" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            用户画像
+          </a>
+          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/评测结果_v1.md" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+            RAG 评测结果
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
       <div class="wrap">
         <div class="section-head">
           <h2>从资料到结论，四步完成</h2>
