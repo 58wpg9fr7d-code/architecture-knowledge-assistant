@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ArchMind · AI 建筑案例分析助手｜Axure 低保真原型</title>
+  <style>
+    :root {
+      --bg: #f5f5f4;
+      --surface: #ffffff;
+      --panel: #fafafa;
+      --ink: #202020;
+      --muted: #757575;
+      --subtle: #a8a8a8;
+      --line: #d8d8d8;
+      --line-dark: #bdbdbd;
+      --fill: #efefef;
+      --fill-strong: #e4e4e4;
+      --active: #1f1f1f;
+      --active-soft: #ececec;
+      --warning: #f6f1e8;
+      --success: #eef3ec;
+      --shadow: 0 14px 40px rgba(20, 20, 20, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    body {
+      padding: 28px;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    .prototype {
+      max-width: 1180px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 74px;
+      padding: 0 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .brand {
+      min-width: 260px;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .brand-subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .steps {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(90px, 1fr));
+      gap: 8px;
+      align-items: center;
+    }
+
+    .step {
+      min-height: 44px;
+      padding: 8px 10px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .step strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: inherit;
+      margin-bottom: 2px;
+    }
+
+    .step span {
+      display: block;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .step.active {
+      color: var(--ink);
+      border-color: var(--line-dark);
+      background: var(--active-soft);
+    }
+
+    .screen {
+      display: none;
+      min-height: 690px;
+      background: var(--surface);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen-header {
+      padding: 30px 34px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .screen-header h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    .screen-header p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .body {
+      padding: 28px 34px 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .panel, .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .card.selected, .panel.selected {
+      border-color: var(--active);
+      background: var(--panel);
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .label {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .input, .textarea {
+      width: 100%;
+      border: 1px solid var(--line-dark);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .input {
+      height: 46px;
+      padding: 0 14px;
+    }
+
+    .textarea {
+      min-height: 84px;
+      padding: 12px 14px;
+      resize: none;
+    }
+
+    .upload {
+      min-height: 168px;
+      border: 1px dashed var(--line-dark);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--panel);
+    }
+
+    .upload strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .hint {
+      margin: 16px 0;
+      padding: 12px 14px;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .chip.active {
+      border-color: var(--active);
+      background: var(--active);
+      color: #fff;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+    }
+
+    .status {
+      min-width: 116px;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--fill);
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .status.ok { background: var(--success); }
+    .status.warn { background: var(--warning); }
+
+    .progress-track {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--fill);
+      border: 1px solid var(--line);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 60%;
+      background: var(--active);
+    }
+
+    .preview-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .preview-item {
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--surface);
+    }
+
+    .option-card {
+      min-height: 112px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .option-card.selected {
+      border-color: var(--active);
+      background: var(--panel);
+    }
+
+    .option-card strong {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .dimension-box {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .report-layout {
+      display: grid;
+      grid-template-columns: 1fr 270px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .info-cell {
+      min-height: 78px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+    }
+
+    .info-cell small {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .info-cell strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .summary {
+      margin-top: 16px;
+      color: var(--ink);
+      line-height: 1.75;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .analysis-card {
+      position: relative;
+      min-height: 176px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .regen {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .source-note {
+      margin-top: 16px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .side-box {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .confidence {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .preview-box {
+      min-height: 230px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      line-height: 1.8;
+    }
+
+    .export-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .export-button {
+      min-height: 112px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      text-align: left;
+    }
+
+    .export-button strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .footer {
+      height: 76px;
+      padding: 0 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      min-width: 118px;
+      height: 40px;
+      padding: 0 16px;
+      border: 1px solid var(--line-dark);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      border-color: var(--active);
+      background: var(--active);
+      color: #fff;
+    }
+
+    .btn.disabled {
+      border-color: var(--line);
+      background: var(--fill);
+      color: var(--subtle);
+      cursor: not-allowed;
+    }
+
+    .flow {
+      max-width: 1180px;
+      margin: 22px auto 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .flow h2 {
+      margin: 0 0 18px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .flow-line {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .flow-node {
+      position: relative;
+      min-height: 98px;
+      padding: 15px;
+      border: 1px solid var(--line-dark);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .flow-node:after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 36px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .flow-node:last-child:after {
+      content: "";
+    }
+
+    .flow-node small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .flow-node strong {
+      display: block;
+      font-weight: 600;
+    }
+
+    .mt-12 { margin-top: 12px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-22 { margin-top: 22px; }
+    .muted { color: var(--muted); }
+
+    @media (max-width: 960px) {
+      body { padding: 14px; }
+      .topbar {
+        height: auto;
+        padding: 18px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .steps, .grid-2, .grid-3, .grid-4, .report-layout, .analysis-grid, .info-grid, .export-actions, .flow-line {
+        grid-template-columns: 1fr;
+      }
+      .screen { min-height: auto; }
+      .footer {
+        height: auto;
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .button-row { justify-content: flex-end; }
+      .flow-node:after { content: ""; }
+    }
+  </style>
+</head>
+<body>
+  <main class="prototype" aria-label="ArchMind Axure low fidelity prototype">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-title">ArchMind · AI 建筑案例分析助手</div>
+        <div class="brand-subtitle">上传资料 → AI 分析 → 导出报告</div>
+      </div>
+      <nav class="steps" aria-label="页面步骤导航">
+        <button class="step active" data-target="page-1"><strong>1/6</strong><span>首页</span></button>
+        <button class="step" data-target="page-2"><strong>2/6</strong><span>上传资料</span></button>
+        <button class="step" data-target="page-3"><strong>3/6</strong><span>选择维度</span></button>
+        <button class="step" data-target="page-4"><strong>4/6</strong><span>分析结果</span></button>
+        <button class="step" data-target="page-5"><strong>5/6</strong><span>汇报提纲</span></button>
+        <button class="step" data-target="page-6"><strong>6/6</strong><span>导出</span></button>
+      </nav>
+    </header>
+
+    <section class="screen active" id="page-1">
+      <div class="screen-header">
+        <h1>ArchMind · AI 建筑案例分析助手</h1>
+        <p>上传资料 → AI 分析 → 导出报告</p>
+      </div>
+      <div class="body">
+        <div class="panel">
+          <label class="label" for="case-name">案例名称</label>
+          <input class="input" id="case-name" value="" placeholder="给这个案例起个名字吧（如：维特拉消防站）">
+        </div>
+
+        <div class="grid-2 mt-16">
+          <div class="upload">
+            <div>
+              <strong>上传文本资料</strong>
+              <div class="muted">PDF / Word / TXT</div>
+            </div>
+            <button class="btn">点击上传</button>
+          </div>
+          <div class="upload">
+            <div>
+              <strong>上传图纸/图片</strong>
+              <div class="muted">平面图 / 剖面图 / 实景照片</div>
+            </div>
+            <button class="btn">点击上传</button>
+          </div>
+        </div>
+
+        <div class="hint">提示：AI 目前无法自动分析图纸空间关系，请同步上传配套文字说明；若图纸缺失，空间/尺度维度分析将标记为⚠️</div>
+
+        <div class="panel">
+          <h2 class="section-title">快捷模板入口</h2>
+          <div class="chips">
+            <span class="chip">扎哈·哈迪德</span>
+            <span class="chip">安藤忠雄</span>
+            <span class="chip">密斯·凡·德·罗</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：1/6 首页</span>
+        <div class="button-row">
+          <button class="btn disabled">上一步</button>
+          <button class="btn disabled">开始分析</button>
+        </div>
+      </footer>
+    </section>
+
+    <section class="screen" id="page-2">
+      <div class="screen-header">
+        <h1>正在解析你的资料...</h1>
+        <p>系统正在识别文件内容、来源页码和缺失信息。</p>
+      </div>
+      <div class="body grid-2">
+        <div class="panel">
+          <h2 class="section-title">文件列表</h2>
+          <div class="file-list">
+            <div class="file-row"><strong>维特拉消防站_设计说明.pdf</strong><span class="status ok">✅ 已解析</span></div>
+            <div class="file-row"><strong>总平面图.jpg</strong><span class="status">⏳ 解析中...</span></div>
+            <div class="file-row"><strong>剖面图.jpg</strong><span class="status warn">⚠️ 建议补充</span></div>
+          </div>
+
+          <div class="mt-22">
+            <div class="label">整体解析进度：60%</div>
+            <div class="progress-track"><div class="progress-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="section-title">解析结果预览</h2>
+          <div class="preview-list">
+            <div class="preview-item"><span>建筑名称：维特拉消防站</span><span class="muted">来源：PDF第1页</span></div>
+            <div class="preview-item"><span>建筑师：扎哈·哈迪德</span><span class="muted">来源：PDF第1页</span></div>
+            <div class="preview-item"><span>年份：1993年</span><span class="muted">来源：PDF第1页</span></div>
+            <div class="preview-item"><span>场地信息：未识别到 ⚠️</span><span class="muted">请手动补充</span></div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：2/6 上传资料</span>
+        <div class="button-row">
+          <button class="btn" data-target="page-1">上一步</button>
+          <button class="btn primary" data-target="page-3">确认信息，选择分析维度</button>
+        </div>
+      </footer>
+    </section>
+
+    <section class="screen" id="page-3">
+      <div class="screen-header">
+        <h1>你这次分析的目的是什么？</h1>
+        <p>选择输出用途和分析维度，生成更贴近场景的报告。</p>
+      </div>
+      <div class="body">
+        <div class="grid-4">
+          <div class="option-card selected"><strong>课程汇报</strong><span class="muted">适合课堂展示与口头讲解</span></div>
+          <div class="option-card"><strong>论文分析</strong><span class="muted">适合章节式论证结构</span></div>
+          <div class="option-card"><strong>作品集图注</strong><span class="muted">适合短句、图文并排</span></div>
+          <div class="option-card"><strong>设计前期调研</strong><span class="muted">适合策略归纳和对比</span></div>
+        </div>
+
+        <div class="dimension-box">
+          <h2 class="section-title">分析维度选择</h2>
+          <div class="chips">
+            <span class="chip active">环境关系</span>
+            <span class="chip active">材料使用</span>
+            <span class="chip active">比例提取</span>
+            <span class="chip active">场地策略</span>
+          </div>
+          <div class="mt-16">
+            <label class="label" for="other-dimension">#其他（请填写）</label>
+            <input class="input" id="other-dimension" value="空间组织" placeholder="输入你想补充的分析维度">
+            <div class="hint">提示：用户自定义维度累计达 50 次，将升级为默认标签</div>
+          </div>
+        </div>
+
+        <div class="panel mt-16">
+          <h2 class="section-title">AI 推荐维度</h2>
+          <div>基于“课程汇报”用途，AI 推荐你关注：<strong>场地策略、空间组织</strong></div>
+        </div>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：3/6 选择维度</span>
+        <div class="button-row">
+          <button class="btn" data-target="page-2">上一步</button>
+          <button class="btn primary" data-target="page-4">生成分析报告</button>
+        </div>
+      </footer>
+    </section>
+
+    <section class="screen" id="page-4">
+      <div class="screen-header">
+        <h1>分析报告 · 维特拉消防站</h1>
+        <p>报告内容按所选维度生成，并标注资料来源与置信度。</p>
+      </div>
+      <div class="body report-layout">
+        <div>
+          <div class="panel">
+            <h2 class="section-title">基础信息</h2>
+            <div class="info-grid">
+              <div class="info-cell"><small>建筑名称</small><strong>维特拉消防站</strong><small>来源：PDF ✅</small></div>
+              <div class="info-cell"><small>建筑师</small><strong>扎哈·哈迪德</strong><small>来源：PDF ✅</small></div>
+              <div class="info-cell"><small>年份</small><strong>1993年</strong><small>来源：PDF ✅</small></div>
+              <div class="info-cell"><small>地点</small><strong>德国魏尔</strong><small>来源：PDF ✅</small></div>
+              <div class="info-cell"><small>功能类型</small><strong>消防站</strong><small>来源：PDF ✅</small></div>
+            </div>
+            <div class="summary">
+              维特拉消防站通过倾斜墙体和线性体块组织场地边界，使建筑像一组被拉伸的导向线。尺度翻译：入口区域层高 6m ≈ 两层住宅高度，适合作为消防车出入与集结空间，但对普通访客会形成明显压迫感。材料以清水混凝土为主，强化了建筑的连续墙面和速度感。
+            </div>
+          </div>
+
+          <div class="analysis-grid">
+            <div class="analysis-card">
+              <button class="regen">重新生成此段</button>
+              <h3 class="section-title">场地策略</h3>
+              <p>建筑沿基地边缘展开，墙体方向强化了车辆流线和入口识别。它不是独立摆放的盒子，而是把场地边界转化为可感知的空间秩序。</p>
+              <div class="source-note">✅ 基于上传资料</div>
+            </div>
+            <div class="analysis-card">
+              <button class="regen">重新生成此段</button>
+              <h3 class="section-title">材料使用</h3>
+              <p>清水混凝土提供统一的灰度表面，减少装饰干扰。材料的重量感和墙体的倾斜方向共同放大建筑的力量感。</p>
+              <div class="source-note">✅ 基于上传资料</div>
+            </div>
+            <div class="analysis-card">
+              <button class="regen">重新生成此段</button>
+              <h3 class="section-title">比例提取</h3>
+              <p>建筑采用低矮且水平延展的体量比例，横向长度明显大于高度。入口尺度偏大，适合车辆通行，也让人感知到功能空间的非日常尺度。</p>
+              <div class="source-note">⚠️ 资料不足，AI 推论</div>
+            </div>
+            <div class="analysis-card">
+              <button class="regen">重新生成此段</button>
+              <h3 class="section-title">空间组织</h3>
+              <p>空间更接近线性组织，而不是中心式大厅。由于缺少剖面图，内部层高和空间转换关系需要补充图纸后进一步确认。</p>
+              <div class="source-note">⚠️ 建议补充图纸/说明</div>
+            </div>
+          </div>
+
+          <div class="confidence">本次分析基于上传的 3 篇资料。因未提供剖面图，空间分析为推论（置信度：中）。建议补充图纸以获得更完整分析。</div>
+        </div>
+
+        <aside class="side-box">
+          <h2 class="section-title">设计手法归因</h2>
+          <div class="chips">
+            <span class="chip">环境关系</span>
+            <span class="chip">材料使用</span>
+            <span class="chip">比例提取</span>
+            <span class="chip active">场地策略</span>
+            <span class="chip active">#空间组织</span>
+          </div>
+          <div class="hint">AI 自动高亮匹配的标签，用于证明分析维度和案例特征之间的关系。</div>
+        </aside>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：4/6 分析结果</span>
+        <div class="button-row">
+          <button class="btn">编辑报告</button>
+          <button class="btn primary" data-target="page-5">生成汇报提纲</button>
+        </div>
+      </footer>
+    </section>
+
+    <section class="screen" id="page-5">
+      <div class="screen-header">
+        <h1>选择你需要的汇报格式</h1>
+        <p>同一份分析结果可以转换为不同表达结构。</p>
+      </div>
+      <div class="body grid-2">
+        <div>
+          <div class="grid-2">
+            <div class="option-card selected"><strong>课程汇报版</strong><span class="muted">适合 PPT 展示</span></div>
+            <div class="option-card"><strong>论文分析版</strong><span class="muted">适合论文章节</span></div>
+            <div class="option-card"><strong>作品集图注版</strong><span class="muted">简洁有力</span></div>
+            <div class="option-card"><strong>设计策略清单</strong><span class="muted">要点式</span></div>
+          </div>
+        </div>
+        <div class="preview-box">
+          <strong>课程汇报版预览</strong><br>
+          1. 案例背景：维特拉园区中的消防站功能<br>
+          2. 场地策略：沿基地边界形成线性导向<br>
+          3. 空间尺度：6m 层高对应车辆与集结需求<br>
+          4. 材料表达：清水混凝土强化连续墙面<br>
+          5. 可借鉴策略：用边界组织流线与视觉方向
+        </div>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：5/6 汇报提纲</span>
+        <div class="button-row">
+          <button class="btn" data-target="page-4">上一步</button>
+          <button class="btn primary" data-target="page-6">导出</button>
+        </div>
+      </footer>
+    </section>
+
+    <section class="screen" id="page-6">
+      <div class="screen-header">
+        <h1>导出完成 ✅</h1>
+        <p>选择导出格式，或保存到案例库。</p>
+      </div>
+      <div class="body">
+        <div class="export-actions">
+          <button class="export-button"><strong>📄 导出 Word</strong><span class="muted">适合继续编辑和排版</span></button>
+          <button class="export-button"><strong>📝 导出 Markdown</strong><span class="muted">适合放入笔记或知识库</span></button>
+          <button class="export-button"><strong>📋 复制到剪贴板</strong><span class="muted">适合快速粘贴到文档</span></button>
+        </div>
+
+        <div class="panel mt-22">
+          <h2 class="section-title">含配图占位符版本</h2>
+          <button class="btn primary">导出含配图占位符的 Word 版</button>
+          <div class="hint">AI 会在对应位置生成画面指令（如：“此处建议插入一层平面图，标注入口与流线关系”），你可根据提示手动配图。</div>
+        </div>
+
+        <div class="panel mt-16">
+          <h2 class="section-title">案例保存</h2>
+          <button class="btn">保存到我的案例库</button>
+          <span class="muted" style="margin-left: 12px;">已保存，可在首页“历史记录”中查看</span>
+        </div>
+      </div>
+      <footer class="footer">
+        <span class="muted">当前步骤：6/6 导出</span>
+        <div class="button-row">
+          <button class="btn" data-target="page-5">上一步</button>
+          <button class="btn primary" data-target="page-1">回到首页</button>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <section class="flow" aria-label="用户流程图">
+    <h2>用户流程线</h2>
+    <div class="flow-line">
+      <div class="flow-node"><small>1/6</small><strong>首页</strong><span class="muted">填名称 + 上传资料</span></div>
+      <div class="flow-node"><small>2/6</small><strong>上传页</strong><span class="muted">解析完成 + 确认信息</span></div>
+      <div class="flow-node"><small>3/6</small><strong>维度选择页</strong><span class="muted">选择用途与维度</span></div>
+      <div class="flow-node"><small>4/6</small><strong>结果页</strong><span class="muted">生成分析报告</span></div>
+      <div class="flow-node"><small>5/6</small><strong>提纲页</strong><span class="muted">选择汇报格式</span></div>
+      <div class="flow-node"><small>6/6</small><strong>导出页</strong><span class="muted">导出并保存案例</span></div>
+    </div>
+  </section>
+
+  <script>
+    const steps = Array.from(document.querySelectorAll('[data-target]'));
+    const navSteps = Array.from(document.querySelectorAll('.step'));
+    const screens = Array.from(document.querySelectorAll('.screen'));
+
+    function showPage(id) {
+      screens.forEach((screen) => screen.classList.toggle('active', screen.id === id));
+      navSteps.forEach((step) => step.classList.toggle('active', step.dataset.target === id));
+      const current = document.getElementById(id);
+      if (current) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+      if (location.hash !== '#' + id) {
+        history.replaceState(null, '', '#' + id);
+      }
+    }
+
+    steps.forEach((item) => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        if (target) showPage(target);
+      });
+    });
+
+    const initial = location.hash.replace('#', '');
+    if (initial && document.getElementById(initial)) {
+      showPage(initial);
+    }
+  </script>
+</body>
+</html>
