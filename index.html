@@ -184,6 +184,47 @@
     .flow-steps b { font-size: 14px; color: var(--ink); }
     .flow-steps p { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
 
+    /* ===== 文档卡片 ===== */
+    .doc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
+    .doc-card {
+      text-align: left; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px;
+      background: var(--bg); cursor: pointer; display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .16s, transform .16s, box-shadow .16s; box-shadow: var(--shadow-sm);
+    }
+    .doc-card:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .dc-top { display: flex; align-items: center; justify-content: space-between; }
+    .dc-ic { width: 32px; height: 32px; border-radius: 9px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
+    .dc-more { font-size: 12px; font-weight: 700; color: var(--blue); opacity: .85; }
+    .doc-card h3 { font-size: 14px; color: var(--ink); }
+    .doc-card p { font-size: 12px; color: var(--muted); line-height: 1.6; flex: 1; }
+
+    /* ===== 文档弹层 ===== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px;
+      background: rgba(20, 24, 31, .45); opacity: 0; pointer-events: none; transition: opacity .18s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      width: min(560px, 100%); max-height: 82vh; overflow: auto;
+      background: var(--bg); border-radius: 16px; padding: 26px 28px; box-shadow: var(--shadow-lg);
+      transform: translateY(10px); transition: transform .18s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .modal-head h3 { font-size: 19px; color: var(--ink); }
+    .modal-close {
+      flex: none; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line);
+      background: var(--bg-soft); color: var(--muted); font-size: 15px; cursor: pointer;
+      display: grid; place-items: center;
+    }
+    .modal-close:hover { color: var(--ink); border-color: var(--faint); }
+    .modal-sub { margin-top: 6px; font-size: 13px; color: var(--muted); }
+    .modal-body { margin-top: 18px; display: grid; gap: 11px; }
+    .mb-item { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft); }
+    .mb-item b { display: block; font-size: 13px; color: var(--ink); margin-bottom: 3px; }
+    .mb-item p { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+    .modal-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12px; color: var(--faint); }
+
     /* ===== 原型区 ===== */
     .demo-shell { padding: 12px; border: 1px solid #dfe3ea; border-radius: 18px; background: #eceff3; box-shadow: var(--shadow-lg); }
     .demo-toolbar {
@@ -346,23 +387,27 @@
             <p>v2.0 场景化工作流</p>
           </article>
         </div>
-        <div class="doc-links">
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/PRD.docx" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-            PRD 产品需求文档
-          </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/竞品分析.docx" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-            竞品分析
-          </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/用户画像与使用场景.docx" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            用户画像
-          </a>
-          <a class="doc-link" href="https://github.com/58wpg9fr7d-code/architecture-knowledge-assistant/blob/main/docs/评测结果_v1.docx" target="_blank" rel="noreferrer">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
-            RAG 评测结果
-          </a>
+        <div class="doc-cards">
+          <button class="doc-card" data-doc="prd">
+            <div class="dc-top"><span class="dc-ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span><span class="dc-more">查看 →</span></div>
+            <h3>PRD 产品需求文档</h3>
+            <p>产品定位、功能范围、评测指标与迭代规划</p>
+          </button>
+          <button class="doc-card" data-doc="competitor">
+            <div class="dc-top"><span class="dc-ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span><span class="dc-more">查看 →</span></div>
+            <h3>竞品分析</h3>
+            <p>行业痛点数据、竞品格局与市场空白</p>
+          </button>
+          <button class="doc-card" data-doc="persona">
+            <div class="dc-top"><span class="dc-ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="dc-more">查看 →</span></div>
+            <h3>用户画像</h3>
+            <p>目标用户分层与四类高频使用场景</p>
+          </button>
+          <button class="doc-card" data-doc="eval">
+            <div class="dc-top"><span class="dc-ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><span class="dc-more">查看 →</span></div>
+            <h3>RAG 评测结果</h3>
+            <p>20 题检索评测：找回率与典型失败案例</p>
+          </button>
         </div>
       </div>
     </section>
@@ -460,6 +505,95 @@
       </div>
     </div>
   </footer>
+
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle"></h3>
+          <p class="modal-sub" id="modalSub"></p>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </div>
+  </div>
+
+  <script>
+    const DOCS = {
+      prd: {
+        title: "PRD 产品需求文档",
+        sub: "ArchMind · AI 建筑知识助手",
+        foot: "完整文档：02-产品设计/PRD.docx",
+        items: [
+          { t: "产品定位", d: "面向建筑从业者的私有资料问答与分析工具：上传自己的规范、文献与案例，用自然语言提问，回答附来源、可核验。" },
+          { t: "v1.0 已实现", d: "多格式上传、向量检索问答、来源片段展示、多模型切换（Groq / Gemini / Ollama）、浏览器插件。" },
+          { t: "v2.0 规划", d: "同一份资料按四种场景模板化输出：课程汇报、论文分析、作品集图注、设计策略。" },
+          { t: "评测指标", d: "20 题检索找回率：Top-1 93.3%，Top-4 100%。" },
+          { t: "迭代规划", d: "M0 上线 v1.0 → 逐步补齐场景化工作流、汇报提纲生成、插件体验优化。" }
+        ]
+      },
+      competitor: {
+        title: "竞品分析",
+        sub: "行业痛点 · 竞品格局 · 市场空白",
+        foot: "完整文档：01-需求调研/竞品分析.docx",
+        items: [
+          { t: "行业痛点", d: "查一条规范平均 8.6 分钟、约占出图周期 15%；一次规范核查耗时 2.5 小时。通用搜索找不准、易误读条文。" },
+          { t: "竞品格局", d: "品茗晓筑（内置 1 万+ 国标）、广联达睿答、PKPM 构力AI——ToB 大而全；通用搜索与通用 AI——不基于私有资料、不溯源。" },
+          { t: "市场空白", d: "面向个人设计师/学生的轻量工具：私有资料 + 溯源问答 + 场景化分析，现有竞品均未覆盖。" }
+        ]
+      },
+      persona: {
+        title: "用户画像与使用场景",
+        sub: "P0 → P2 分层 · 四类高频场景",
+        foot: "完整文档：01-需求调研/用户画像与使用场景.docx",
+        items: [
+          { t: "P0 · 建筑研究生", d: "课程汇报与论文写作，需要快速梳理规范条文、组织论据。" },
+          { t: "P1 · 设计师助理", d: "方案设计期高频核查规范，写图注、做分析说明。" },
+          { t: "P2 · 从业者", d: "项目复盘与案例沉淀，把零散资料整理成可复用结论。" },
+          { t: "高频场景", d: "规范条文核查、论文资料梳理、作品集图注、设计策略分析——四类场景共用一条工作流。" }
+        ]
+      },
+      eval: {
+        title: "RAG 评测结果（v1）",
+        sub: "20 题检索找回率评测",
+        foot: "完整文档：04-测试验证/outputs/ArchMind_RAG_评测结果_v1.docx",
+        items: [
+          { t: "Top-1 找回率 93.3%", d: "20 题中 18 题第一名命中正确答案所在片段。" },
+          { t: "Top-4 找回率 100%", d: "前 4 名召回全部覆盖正确答案，答案生成有足够依据。" },
+          { t: "典型失败案例", d: "Badcase X04：跨段落综合理解题受相近术语干扰，检索召回相关但非目标片段。" },
+          { t: "改进方向", d: "对跨段引用型问题做术语消歧与段落关联增强。" }
+        ]
+      }
+    };
+
+    const overlay = document.getElementById("modalOverlay");
+    const closeBtn = document.getElementById("modalClose");
+
+    function openDoc(key) {
+      const d = DOCS[key];
+      if (!d) return;
+      document.getElementById("modalTitle").textContent = d.title;
+      document.getElementById("modalSub").textContent = d.sub;
+      document.getElementById("modalBody").innerHTML = d.items
+        .map(function (it) { return '<div class="mb-item"><b>' + it.t + '</b><p>' + it.d + '</p></div>'; })
+        .join("");
+      document.getElementById("modalFoot").textContent = d.foot;
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal() {
+      overlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    document.querySelectorAll(".doc-card").forEach(function (c) {
+      c.addEventListener("click", function () { openDoc(c.dataset.doc); });
+    });
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", function (e) { if (e.target === e.currentTarget) closeModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  </script>
 
 </body>
 </html>
